@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:offertelavoroflutter_it_app/services/network/temp/temp_services.dart';
 import 'package:offertelavoroflutter_it_app/themes/cubits/theme/theme_cubit.dart';
 import 'package:offertelavoroflutter_it_app/themes/theme_type.dart';
 
@@ -9,20 +10,14 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildMainPageBody(),
+      body: _buildMainPageBody(context),
     );
   }
 
-  Widget _buildMainPageBody() => BlocBuilder<ThemeCubit, ThemeState>(
-        builder: (context, mode) {
-          return Center(
-            child: Switch(
-              value: mode.dark,
-              onChanged: (value) => context
-                  .read<ThemeCubit>()
-                  .setTheme(value ? ThemeType.dark : ThemeType.light),
-            ),
-          );
-        },
+  Widget _buildMainPageBody(BuildContext context) => Center(
+        child: TextButton(
+          onPressed: () => context.read<TempServices>().tempServ(),
+          child: const Text("Prova"),
+        ),
       );
 }

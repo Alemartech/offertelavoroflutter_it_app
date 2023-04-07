@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:logger/logger.dart';
+import 'package:offertelavoroflutter_it_app/repositories/job_repository.dart';
+import 'package:offertelavoroflutter_it_app/services/network/dto/jobs_response.dart';
+import 'package:offertelavoroflutter_it_app/services/network/jobs_services.dart';
+import 'package:offertelavoroflutter_it_app/services/network/temp/temp_services.dart';
 import 'package:offertelavoroflutter_it_app/themes/cubits/theme/theme_cubit.dart';
+import 'package:offertelavoroflutter_it_app/repositories/mappers/job_mapper.dart';
 import 'package:pine/di/dependency_injector_helper.dart';
+import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 part 'blocs.dart';

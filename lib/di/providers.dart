@@ -1,3 +1,13 @@
 part of 'dependency_injector.dart';
 
-final List<SingleChildWidget> _providers = [];
+final List<SingleChildWidget> _providers = [
+  Provider<Logger>(
+    create: (_) => Logger(),
+  ),
+  Provider<TempServices>(
+    create: (_) => TempServices(),
+  ),
+  Provider<JobsService>(
+    create: (context) => JobsService(baseUrl: "https://api.notion.com/v1"),
+  ),
+];
