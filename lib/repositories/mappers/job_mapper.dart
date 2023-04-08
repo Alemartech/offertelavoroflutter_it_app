@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:offertelavoroflutter_it_app/models/job_details_model.dart';
 import 'package:offertelavoroflutter_it_app/models/job_model.dart';
 import 'package:offertelavoroflutter_it_app/services/network/dto/jobs_response.dart';
+import 'package:offertelavoroflutter_it_app/utilities/enums.dart';
 import 'package:pine/pine.dart';
 
 class JobMapper extends DTOMapper<JobsResponse, JobModel> {
@@ -15,36 +16,36 @@ class JobMapper extends DTOMapper<JobsResponse, JobModel> {
             .map((propertyDTO) => JobDetailsModel(
                   nameField: propertyDTO.nameField,
                   typeField: propertyDTO.typeField,
-                  checkBoxValue:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  createdTimeValue:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  dateValue:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  emailValue:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  filesValues:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  lastEditedByValues:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  lastEditedTimeValue:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  numberValue:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  peopleValues:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  phoneNumberValue:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  rollupValues:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  richTextValues:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  titleValues:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  selectValues:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
-                  urlValue:
-                      _getValues(propertyDTO.typeField, propertyDTO.valueField),
+                  checkBoxValue: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.checkbox),
+                  createdTimeValue: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.created_time),
+                  dateValue: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.date),
+                  emailValue: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.email),
+                  filesValues: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.files),
+                  lastEditedByValues: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.last_edited_by),
+                  lastEditedTimeValue: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.last_edited_time),
+                  numberValue: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.number),
+                  peopleValues: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.people),
+                  phoneNumberValue: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.phone_number),
+                  rollupValues: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.rollup),
+                  richTextValues: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.rich_text),
+                  titleValues: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.title),
+                  selectValues: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.select),
+                  urlValue: _getValues(propertyDTO.typeField,
+                      propertyDTO.valueField, FieldsType.url),
                 ))
             .toList(growable: false),
       );
@@ -55,127 +56,136 @@ class JobMapper extends DTOMapper<JobsResponse, JobModel> {
     throw UnimplementedError();
   }
 
-  _getValues(String type, PropType<dynamic>? item) {
-    switch (type) {
-      case "checkbox":
-        return (item as PropType<ChechBoxTypeProp>).values!.checkbox;
+  _getValues(String type, PropType<dynamic>? item, FieldsType current) {
+    if (type != current.name) {
+      return null;
+    } else {
+      if (item?.values == null) return null;
 
-      case "created_by":
-        return (item as PropType<CreatedByTypeProp>).values!.object;
+      switch (type) {
+        case "checkbox":
+          return (item as PropType<ChechBoxTypeProp>).values!.checkbox;
 
-      case "created_time":
-        return DateTime.tryParse(
-            (item as PropType<CreatedTimeTypeProp>).values!.createdTime);
+        case "created_by":
+          return (item as PropType<CreatedByTypeProp>).values!.object;
 
-      case "date":
-        final end = (item as PropType<DateTypeProp>).values!.end;
-        return DateTypeModel(
-          start: DateTime.tryParse((item).values!.start),
-          end: end != "" ? DateTime.tryParse((item).values!.end) : null,
-        );
+        case "created_time":
+          return DateTime.tryParse(
+              (item as PropType<CreatedTimeTypeProp>).values!.createdTime);
 
-      case "email":
-        return (item as PropType<EmailTypeProp>).values!.email;
+        case "date":
+          final end = (item as PropType<DateTypeProp>).values!.end;
+          return DateTypeModel(
+            start: DateTime.tryParse((item).values!.start),
+            end: end != "" ? DateTime.tryParse((item).values!.end) : null,
+          );
 
-      case "files":
-        return (item as PropType<List<FilesTypeProp>>)
-            .values!
-            .map(
-              (file) => FileTypeModel(name: file.name, url: file.url),
-            )
-            .toList(growable: false);
+        case "email":
+          return (item as PropType<EmailTypeProp>).values!.email;
 
-      case "last_edited_by":
-        return (item as PropType<LastEditedByTypeProp>).values!.object;
+        case "files":
+          return (item as PropType<List<FilesTypeProp>>)
+              .values!
+              .map(
+                (file) => FileTypeModel(name: file.name, url: file.url),
+              )
+              .toList(growable: false);
 
-      case "last_edited_time":
-        return DateTime.tryParse(
-            (item as PropType<LastEditedTimeTypeProp>).values!.lastEditedTime);
+        case "last_edited_by":
+          return (item as PropType<LastEditedByTypeProp>).values!.object;
 
-      case "multi_select":
-        return (item as PropType<List<MultiSelectTypeProp>>)
-            .values!
-            .map((multiSelect) => MultiSelectTypeModel(
-                name: multiSelect.name,
-                color: _getMaterialColor(multiSelect.color)))
-            .toList(growable: false);
+        case "last_edited_time":
+          return DateTime.tryParse((item as PropType<LastEditedTimeTypeProp>)
+              .values!
+              .lastEditedTime);
 
-      case "number":
-        return (item as PropType<NumberTypeProp>).values!.number;
+        case "multi_select":
+          return (item as PropType<List<MultiSelectTypeProp>>)
+              .values!
+              .map((multiSelect) => MultiSelectTypeModel(
+                  name: multiSelect.name,
+                  color: _getMaterialColor(multiSelect.color)))
+              .toList(growable: false);
 
-      case "people":
-        return (item as PropType<List<PeopleTypeProp>>)
-            .values!
-            .map((people) => UserObjectModel(
-                  id: people.object.id,
-                  name: people.object.name,
-                  avatarUrl: people.object.avatarUrl,
-                ))
-            .toList(growable: false);
+        case "number":
+          return (item as PropType<NumberTypeProp>).values!.number;
 
-      case "phone_number":
-        return (item as PropType<PhoneNumberTypeProp>).values!.phoneNumber;
+        case "people":
+          return (item as PropType<List<PeopleTypeProp>>)
+              .values!
+              .map((people) => UserObjectModel(
+                    id: people.object.id,
+                    name: people.object.name,
+                    avatarUrl: people.object.avatarUrl,
+                  ))
+              .toList(growable: false);
 
-      case "rollup":
-        return (item as PropType<List<RollupTypeProp>>)
-            .values!
-            .map((rollup) => RollupTypeModel(
-                  rollupName: rollup.rollupPropertyName,
-                  relationName: rollup.relationPropertyName,
-                  rollupId: rollup.rollupPropertyId,
-                  relationId: rollup.relationPropertyId,
-                  function: rollup.function,
-                ))
-            .toList(growable: false);
+        case "phone_number":
+          return (item as PropType<PhoneNumberTypeProp>).values!.phoneNumber;
 
-      case "rich_text":
-        return (item as PropType<List<RichTextTypeProp>>)
-            .values!
-            .map((richText) => RichTextTypeModel(
-                  content: richText.text.content,
-                  contentLinkUrl: richText.text.link?.url,
-                  plainText: richText.plainText,
-                  href: richText.href,
-                  annotations: AnnotationsTypeModel(
-                    bold: richText.annotations.bold,
-                    italic: richText.annotations.italic,
-                    strikethrough: richText.annotations.strikethrough,
-                    underline: richText.annotations.underline,
-                    code: richText.annotations.code,
-                    color: _getMaterialColor(richText.annotations.color),
-                  ),
-                ));
+        case "rollup":
+          return (item as PropType<List<RollupTypeProp>>)
+              .values!
+              .map((rollup) => RollupTypeModel(
+                    rollupName: rollup.rollupPropertyName,
+                    relationName: rollup.relationPropertyName,
+                    rollupId: rollup.rollupPropertyId,
+                    relationId: rollup.relationPropertyId,
+                    function: rollup.function,
+                  ))
+              .toList(growable: false);
 
-      case "title":
-        return (item as PropType<List<RichTextTypeProp>>)
-            .values!
-            .map((richText) => RichTextTypeModel(
-                  content: richText.text.content,
-                  contentLinkUrl: richText.text.link?.url,
-                  plainText: richText.plainText,
-                  href: richText.href,
-                  annotations: AnnotationsTypeModel(
-                    bold: richText.annotations.bold,
-                    italic: richText.annotations.italic,
-                    strikethrough: richText.annotations.strikethrough,
-                    underline: richText.annotations.underline,
-                    code: richText.annotations.code,
-                    color: _getMaterialColor(richText.annotations.color),
-                  ),
-                ));
+        case "rich_text":
+          return (item as PropType<List<RichTextTypeProp>>)
+              .values!
+              .map((richText) => RichTextTypeModel(
+                    content: richText.text.content,
+                    contentLinkUrl: richText.text.link?.url,
+                    plainText: richText.plainText,
+                    href: richText.href,
+                    annotations: AnnotationsTypeModel(
+                      bold: richText.annotations.bold,
+                      italic: richText.annotations.italic,
+                      strikethrough: richText.annotations.strikethrough,
+                      underline: richText.annotations.underline,
+                      code: richText.annotations.code,
+                      color: _getMaterialColor(richText.annotations.color),
+                    ),
+                  ))
+              .toList(growable: false);
 
-      case "select":
-        return SelectTypeModel(
-          name: (item as PropType<SelectTypeProp>).values!.name,
-          color: _getMaterialColor(
-              (item as PropType<SelectTypeProp>).values!.color),
-        );
+        case "title":
+          return (item as PropType<List<TitleTypeProp>>)
+              .values!
+              .map((richText) => RichTextTypeModel(
+                    content: richText.text.content,
+                    contentLinkUrl: richText.text.link?.url,
+                    plainText: richText.plainText,
+                    href: richText.href,
+                    annotations: AnnotationsTypeModel(
+                      bold: richText.annotations.bold,
+                      italic: richText.annotations.italic,
+                      strikethrough: richText.annotations.strikethrough,
+                      underline: richText.annotations.underline,
+                      code: richText.annotations.code,
+                      color: _getMaterialColor(richText.annotations.color),
+                    ),
+                  ))
+              .toList(growable: false);
 
-      case "url":
-        return (item as PropType<UrlTypeProp>).values!.url;
+        case "select":
+          return SelectTypeModel(
+            name: (item as PropType<SelectTypeProp>).values!.name,
+            color: _getMaterialColor(
+                (item as PropType<SelectTypeProp>).values!.color),
+          );
 
-      default:
-        return null;
+        case "url":
+          return (item as PropType<UrlTypeProp>).values!.url;
+
+        default:
+          return null;
+      }
     }
   }
 

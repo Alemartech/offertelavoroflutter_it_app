@@ -5,6 +5,7 @@ final List<RepositoryProvider> _repositories = [
     create: (context) => JobRepository(
       service: context.read<JobsService>(),
       jobMapper: context.read<JobMapper>(),
+      secureStorage: context.read<FlutterSecureStorage>(),
     ),
   ),
 ];

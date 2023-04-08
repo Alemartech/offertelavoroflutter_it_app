@@ -8,6 +8,9 @@ final List<SingleChildWidget> _providers = [
     create: (_) => TempServices(),
   ),
   Provider<JobsService>(
-    create: (context) => JobsService(baseUrl: "https://api.notion.com/v1"),
+    create: (_) => JobsService(baseUrl: "https://api.notion.com/v1"),
+  ),
+  Provider<FlutterSecureStorage>(
+    create: (_) => const FlutterSecureStorage(),
   ),
 ];

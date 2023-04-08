@@ -123,7 +123,7 @@ PropType? _getValue(Map<String, dynamic> data) {
       return PropType<List<RichTextTypeProp>>(richTexts);
 
     case "select":
-      return PropType(
+      return PropType<SelectTypeProp>(
           data[type] != null ? SelectTypeProp.fromJson(data[type]) : null);
 
     case "title":

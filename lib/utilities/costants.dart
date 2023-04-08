@@ -6,7 +6,7 @@ class K {
 
   static const headerNotionVersion = "2022-06-28";
 
-  static const flutterProjectDatabaseId = "283d2760f81548f0a7baca4b3e58d7d8";
+  static const flutterProjectDatabaseId = "e6a8a6760e3d4430b20a15d16f75f92e";
 
-  static const jobAnnouncementsDatabaseId = "e6a8a6760e3d4430b20a15d16f75f92e";
+  static const jobAnnouncementsDatabaseId = "283d2760f81548f0a7baca4b3e58d7d8";
 }
