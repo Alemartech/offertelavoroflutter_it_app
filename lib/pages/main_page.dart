@@ -1,33 +1,194 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dart';
-import 'package:offertelavoroflutter_it_app/repositories/job_repository.dart';
-import 'package:offertelavoroflutter_it_app/services/network/temp/temp_services.dart';
+import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
+import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
+import 'package:offertelavoroflutter_it_app/themes/widgets/text_shadow.dart';
+import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 
-class MainPage extends StatelessWidget with AutoRouteWrapper {
+class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
   @override
-  Widget wrappedRoute(BuildContext context) => MultiBlocProvider(providers: [
-        BlocProvider<JobOffersBloc>(
-          create: (context) => JobOffersBloc(
-            jobRepository: context.read<JobRepository>(),
-          ),
-        ),
-      ], child: this);
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildMainPageBody(context),
+    return BlocBuilder<JobProjectsBloc, JobProjectsState>(
+      builder: (jobProjectsContext, jobProjectsState) =>
+          BlocBuilder<JobOffersBloc, JobOffersState>(
+        builder: (jobOffersContext, jobOffersState) {
+          if ((jobProjectsState is NoJobProjectsFetched ||
+                  jobProjectsState is JobProjectsFetched) &&
+              (jobOffersState is NoJobOffersFetched ||
+                  jobOffersState is JobOffersFetched)) {
+            _replacePage(context, const SplashPageRoute());
+          }
+          return const SafeArea(
+            child: Scaffold(
+              extendBodyBehindAppBar: true,
+              body: _LoadingMainWidget(),
+            ),
+          );
+        },
+      ),
     );
   }
 
-  Widget _buildMainPageBody(BuildContext context) => Center(
-        child: TextButton(
-          onPressed: () => context.read<JobOffersBloc>().fetchJobs(),
-          child: const Text("Prova"),
+  Future<void> _replacePage(BuildContext context, PageRouteInfo route) async {
+    context.router.popUntilRoot();
+    await context.pushRoute(route);
+  }
+}
+
+class _LoadingMainWidget extends StatefulWidget {
+  const _LoadingMainWidget({Key? key}) : super(key: key);
+
+  @override
+  State<_LoadingMainWidget> createState() => _LoadingMainWidgetState();
+}
+
+class _LoadingMainWidgetState extends State<_LoadingMainWidget>
+    with TickerProviderStateMixin {
+  late Animation<double> _animation;
+  late AnimationController _logoController;
+  late AnimationController _loadingController;
+
+  @override
+  void initState() {
+    _logoController =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    _animation = Tween<double>(begin: 50, end: 200).animate(_logoController)
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          _logoController.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          _logoController.forward();
+        }
+      });
+
+    _loadingController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2),
+    )..addListener(() {
+        setState(() {});
+      });
+    _loadingController.forward();
+    _logoController.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _logoController.dispose();
+    _loadingController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            K.secondaryColor,
+            K.primaryColor,
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
-      );
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            top: 100.0,
+            left: 0.0,
+            right: 0.0,
+            child: _AnimatedFlutterLogo(animation: _animation),
+          ),
+          Align(
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                TextShadow(
+                  text: AppLocalizations.of(context)?.text_loading ??
+                      "text_loading",
+                  color: K.accentCOlor,
+                  fontWeight: FontWeight.w600,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  child: LinearProgressIndicator(
+                    value: _loadingController.value,
+                    backgroundColor: Colors.transparent,
+                    color: K.accentCOlor,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            bottom: 0.0,
+            left: 0.0,
+            right: 0.0,
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: Column(
+                children: [
+                  TextShadow(
+                    text: AppLocalizations.of(context)?.text_portal ??
+                        "text_portal",
+                    color: K.accentCOlor,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 20.0,
+                  ),
+                  const SizedBox(
+                    height: 24.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/images/logo_fudeo.png",
+                        width: 30,
+                      ),
+                      const SizedBox(
+                        width: 8.0,
+                      ),
+                      TextShadow(
+                          text: AppLocalizations.of(context)?.text_fudeo ??
+                              "text_fudeo",
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _AnimatedFlutterLogo extends AnimatedWidget {
+  const _AnimatedFlutterLogo({Key? key, required Animation<double> animation})
+      : super(key: key, listenable: animation);
+
+  @override
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation<double>;
+    return Center(
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        width: animation.value,
+        height: animation.value,
+        child: const FlutterLogo(),
+      ),
+    );
+  }
 }

@@ -20,7 +20,7 @@ class JobOffersBloc extends Bloc<JobOffersEvent, JobOffersState> {
 
     try {
       final jobs = await jobRepository.jobs(K.jobAnnouncementsDatabaseId);
-      jobs.isEmpty ? NoJobOffersFetched() : JobOffersFetched(jobs: jobs);
+      emit(jobs.isEmpty ? NoJobOffersFetched() : JobOffersFetched(jobs: jobs));
     } on RepositoryError catch (e) {
       emit(JobOffersError(errorMessage: e.errorMessage));
     } catch (e) {

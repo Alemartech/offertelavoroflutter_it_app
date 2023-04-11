@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dart';
+import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
 import 'package:offertelavoroflutter_it_app/repositories/job_repository.dart';
 import 'package:offertelavoroflutter_it_app/services/network/jobs_services.dart';
 import 'package:offertelavoroflutter_it_app/services/network/temp/temp_services.dart';

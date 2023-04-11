@@ -7,6 +7,11 @@ final List<BlocProvider> _blocs = [
   BlocProvider<JobOffersBloc>(
     create: (context) => JobOffersBloc(
       jobRepository: context.read<JobRepository>(),
-    ),
+    )..fetchJobs(),
+  ),
+  BlocProvider<JobProjectsBloc>(
+    create: (context) => JobProjectsBloc(
+      jobRepository: context.read<JobRepository>(),
+    )..fetchProjects(),
   ),
 ];

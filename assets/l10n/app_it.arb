@@ -1,3 +1,7 @@
 {
-    "app_name": "Offerte di lavoro Flutter - Fudeo.it"
+    "app_name": "Offerte di lavoro Flutter - Fudeo.it",
+
+    "text_loading": "Caricamento...",
+    "text_fudeo": "Fudeo.it",
+    "text_portal": "Offertelavoroflutter.it"
 }
