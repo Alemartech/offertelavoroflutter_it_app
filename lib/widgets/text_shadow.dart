@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class TextShadow extends StatelessWidget {
@@ -19,7 +20,7 @@ class TextShadow extends StatelessWidget {
       text,
       style: TextStyle(
         color: color,
-        fontWeight: FontWeight.w600,
+        fontWeight: fontWeight,
         fontSize: fontSize,
         shadows: const <Shadow>[
           Shadow(

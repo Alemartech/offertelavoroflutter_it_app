@@ -5,7 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
 import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
-import 'package:offertelavoroflutter_it_app/themes/widgets/text_shadow.dart';
+import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 
 class MainPage extends StatelessWidget {
@@ -21,7 +21,7 @@ class MainPage extends StatelessWidget {
                   jobProjectsState is JobProjectsFetched) &&
               (jobOffersState is NoJobOffersFetched ||
                   jobOffersState is JobOffersFetched)) {
-            _replacePage(context, const SplashPageRoute());
+            _replacePage(jobOffersContext, const SplashPageRoute());
           }
           return const SafeArea(
             child: Scaffold(
@@ -35,7 +35,7 @@ class MainPage extends StatelessWidget {
   }
 
   Future<void> _replacePage(BuildContext context, PageRouteInfo route) async {
-    context.router.popUntilRoot();
+    //context.router.popUntilRoot();
     await context.pushRoute(route);
   }
 }
@@ -72,7 +72,7 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
     )..addListener(() {
         setState(() {});
       });
-    _loadingController.forward();
+    _loadingController.repeat();
     _logoController.forward();
     super.initState();
   }
@@ -90,8 +90,8 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            K.secondaryColor,
             K.primaryColor,
+            K.secondaryColor,
           ],
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -115,6 +115,7 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                       "text_loading",
                   color: K.accentCOlor,
                   fontWeight: FontWeight.w600,
+                  fontSize: 12.0,
                 ),
                 const SizedBox(
                   height: 20,
@@ -143,10 +144,10 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                         "text_portal",
                     color: K.accentCOlor,
                     fontWeight: FontWeight.w500,
-                    fontSize: 20.0,
+                    fontSize: 16.0,
                   ),
                   const SizedBox(
-                    height: 24.0,
+                    height: 16.0,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -159,10 +160,12 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                         width: 8.0,
                       ),
                       TextShadow(
-                          text: AppLocalizations.of(context)?.text_fudeo ??
-                              "text_fudeo",
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500),
+                        text: AppLocalizations.of(context)?.text_fudeo ??
+                            "text_fudeo",
+                        color: Colors.white,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12.0,
+                      ),
                     ],
                   ),
                 ],
