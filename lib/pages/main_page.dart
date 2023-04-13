@@ -5,6 +5,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
+import 'package:offertelavoroflutter_it_app/blocs/splash_page_pref/splash_page_pref_bloc.dart';
 import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
 import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
@@ -14,24 +15,35 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<JobProjectsBloc, JobProjectsState>(
-      builder: (jobProjectsContext, jobProjectsState) =>
-          BlocBuilder<JobOffersBloc, JobOffersState>(
-        builder: (jobOffersContext, jobOffersState) {
-          if ((jobProjectsState is NoJobProjectsFetched ||
-                  jobProjectsState is JobProjectsFetched) &&
-              (jobOffersState is NoJobOffersFetched ||
-                  jobOffersState is JobOffersFetched)) {
-            _replacePage(jobOffersContext, const SplashPageRoute());
-          }
-          return const SafeArea(
-            child: Scaffold(
-              extendBodyBehindAppBar: true,
-              body: _LoadingMainWidget(),
-            ),
-          );
-        },
-      ),
+    return BlocBuilder<SplashPagePrefBloc, SplashPagePrefState>(
+      builder: (splashPagePrefContext, splashPagePrefState) {
+        return BlocBuilder<JobProjectsBloc, JobProjectsState>(
+          builder: (jobProjectsContext, jobProjectsState) =>
+              BlocBuilder<JobOffersBloc, JobOffersState>(
+            builder: (jobOffersContext, jobOffersState) {
+              if ((jobProjectsState is NoJobProjectsFetched ||
+                      jobProjectsState is JobProjectsFetched) &&
+                  (jobOffersState is NoJobOffersFetched ||
+                      jobOffersState is JobOffersFetched)) {
+                _replacePage(
+                  jobOffersContext,
+                  splashPagePrefState is UndefinedSplashPagePrefState ||
+                          (splashPagePrefState as LoadedSplashPagePrefState)
+                              .showSplashPage
+                      ? const SplashPageRoute()
+                      : const JobOffersPageRoute(),
+                );
+              }
+              return const SafeArea(
+                child: Scaffold(
+                  extendBodyBehindAppBar: true,
+                  body: _LoadingMainWidget(),
+                ),
+              );
+            },
+          ),
+        );
+      },
     );
   }
 

@@ -8,4 +8,9 @@ final List<RepositoryProvider> _repositories = [
       secureStorage: context.read<FlutterSecureStorage>(),
     ),
   ),
+  RepositoryProvider<LocalStoragePrefRepository>(
+    create: (context) => LocalStoragePrefRepository(
+      localStoragePrefService: context.read<LocalStoragePreferencesService>(),
+    ),
+  ),
 ];

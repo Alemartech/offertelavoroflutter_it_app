@@ -1,8 +1,12 @@
 import 'dart:async';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:offertelavoroflutter_it_app/blocs/splash_page_pref/splash_page_pref_bloc.dart';
+import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
 
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
@@ -143,16 +147,30 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                       child: Semantics(
                         label: AppLocalizations.of(context)
                             ?.semantic_label_action_explore_now,
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text(
-                            AppLocalizations.of(context)?.action_explore_now ??
-                                "action_explore_now",
-                            style: const TextStyle(
-                                color: K.accentCOlor,
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16.0),
-                          ),
+                        child: BlocBuilder<SplashPagePrefBloc,
+                            SplashPagePrefState>(
+                          builder:
+                              (splashPagePrefContext, splashPagePrefState) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                if (_isChecked) {
+                                  splashPagePrefContext
+                                      .read<SplashPagePrefBloc>()
+                                      .hideSplashPageToStartup();
+                                }
+                                context.pushRoute(const JobOffersPageRoute());
+                              },
+                              child: Text(
+                                AppLocalizations.of(context)
+                                        ?.action_explore_now ??
+                                    "action_explore_now",
+                                style: const TextStyle(
+                                    color: K.accentCOlor,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16.0),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),

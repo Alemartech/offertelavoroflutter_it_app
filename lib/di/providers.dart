@@ -13,4 +13,9 @@ final List<SingleChildWidget> _providers = [
   Provider<FlutterSecureStorage>(
     create: (_) => const FlutterSecureStorage(),
   ),
+  Provider<LocalStoragePreferencesService>(
+    create: (context) => LocalStoragePreferencesService(
+      sharedPrefFuture: SharedPreferences.getInstance(),
+    ),
+  ),
 ];

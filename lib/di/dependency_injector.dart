@@ -4,7 +4,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:logger/logger.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
+import 'package:offertelavoroflutter_it_app/blocs/splash_page_pref/splash_page_pref_bloc.dart';
 import 'package:offertelavoroflutter_it_app/repositories/job_repository.dart';
+import 'package:offertelavoroflutter_it_app/repositories/local_storage_repository.dart';
+import 'package:offertelavoroflutter_it_app/services/local/local_storage_preferences_service.dart';
 import 'package:offertelavoroflutter_it_app/services/network/jobs_services.dart';
 import 'package:offertelavoroflutter_it_app/services/network/temp/temp_services.dart';
 import 'package:offertelavoroflutter_it_app/themes/cubits/theme/theme_cubit.dart';
@@ -12,6 +15,7 @@ import 'package:offertelavoroflutter_it_app/repositories/mappers/job_mapper.dart
 import 'package:pine/di/dependency_injector_helper.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'blocs.dart';
 part 'mappers.dart';

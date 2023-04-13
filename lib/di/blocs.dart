@@ -14,4 +14,9 @@ final List<BlocProvider> _blocs = [
       jobRepository: context.read<JobRepository>(),
     )..fetchProjects(),
   ),
+  BlocProvider<SplashPagePrefBloc>(
+    create: (context) => SplashPagePrefBloc(
+      localStoragePrefRepository: context.read<LocalStoragePrefRepository>(),
+    )..fetchSplashPagePref(),
+  ),
 ];
