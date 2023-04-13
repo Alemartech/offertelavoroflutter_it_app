@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
 import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
@@ -103,32 +104,36 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
             top: 100.0,
             left: 0.0,
             right: 0.0,
-            child: _AnimatedFlutterLogo(animation: _animation),
+            child: ExcludeSemantics(
+                child: _AnimatedFlutterLogo(animation: _animation)),
           ),
           Align(
             alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                TextShadow(
-                  text: AppLocalizations.of(context)?.text_loading ??
-                      "text_loading",
-                  color: K.accentCOlor,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 12.0,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                  child: LinearProgressIndicator(
-                    value: _loadingController.value,
-                    backgroundColor: Colors.transparent,
+            child: Semantics(
+              label:
+                  AppLocalizations.of(context)?.semantic_label_loading_mainpage,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextShadow(
+                    text: AppLocalizations.of(context)?.text_loading ??
+                        "text_loading",
                     color: K.accentCOlor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 12.0,
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.0),
+                    child: SpinKitThreeBounce(
+                      size: 20,
+                      color: K.accentCOlor,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Positioned(
@@ -142,6 +147,8 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                   TextShadow(
                     text: AppLocalizations.of(context)?.text_portal ??
                         "text_portal",
+                    semanticsLabel: AppLocalizations.of(context)?.text_portal ??
+                        "text_portal",
                     color: K.accentCOlor,
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0,
@@ -152,9 +159,13 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        "assets/images/logo_fudeo.png",
-                        width: 30,
+                      Semantics(
+                        label: AppLocalizations.of(context)
+                            ?.semantic_label_logo_fudeo,
+                        child: Image.asset(
+                          "assets/images/logo_fudeo.png",
+                          width: 30,
+                        ),
                       ),
                       const SizedBox(
                         width: 8.0,
@@ -162,6 +173,9 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                       TextShadow(
                         text: AppLocalizations.of(context)?.text_fudeo ??
                             "text_fudeo",
+                        semanticsLabel:
+                            AppLocalizations.of(context)?.text_fudeo ??
+                                "text_fudeo",
                         color: Colors.white,
                         fontWeight: FontWeight.w500,
                         fontSize: 12.0,
