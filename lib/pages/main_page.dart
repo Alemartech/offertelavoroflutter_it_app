@@ -31,7 +31,7 @@ class MainPage extends StatelessWidget {
                           (splashPagePrefState as LoadedSplashPagePrefState)
                               .showSplashPage
                       ? const SplashPageRoute()
-                      : const JobOffersPageRoute(),
+                      : const JobWrapperPageRoute(),
                 );
               }
               return const SafeArea(

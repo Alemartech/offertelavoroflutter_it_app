@@ -7,12 +7,16 @@ class LightTheme {
   static const accentColor = K.accentCOlor;
 
   static get make => ThemeData(
+        primaryColor: primaryColor,
         fontFamily: "Montserrat",
         brightness: Brightness.light,
-        colorScheme: const ColorScheme.light(),
+        colorScheme: const ColorScheme.light(
+          primary: primaryColor,
+          secondary: secondaryColor,
+        ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(
-            color: Color(0xff20497a),
+            color: primaryColor,
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -27,11 +31,41 @@ class LightTheme {
           ),
         ),
         checkboxTheme: CheckboxThemeData(
-            fillColor: const MaterialStatePropertyAll(K.primaryColor),
-            checkColor: const MaterialStatePropertyAll(K.accentCOlor),
-            side: const BorderSide(color: Colors.white),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0),
-            )),
+          fillColor: const MaterialStatePropertyAll(K.primaryColor),
+          checkColor: const MaterialStatePropertyAll(K.accentCOlor),
+          side: const BorderSide(color: Colors.white),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+        ),
+        tabBarTheme: const TabBarTheme(
+          labelColor: accentColor,
+          unselectedLabelColor: primaryColor,
+          unselectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+          labelStyle: TextStyle(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          elevation: 0.0,
+          backgroundColor: Colors.white,
+          selectedItemColor: primaryColor,
+          showSelectedLabels: true,
+          showUnselectedLabels: false,
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor: primaryColor.withOpacity(0.38),
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0.0,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            color: primaryColor,
+            fontWeight: FontWeight.w700,
+            fontSize: 24.0,
+          ),
+        ),
       );
 }

@@ -3,6 +3,11 @@
 
     "action_explore_now": "Explore now",
 
+    "bottom_nav_label_home": "Board",
+    "bottom_nav_label_saved": "Saved",
+    "bottom_nav_label_training": "Training",
+    "bottom_nav_label_settings": "Settings",
+
     "checkbox_label_hidden_screen": "Hide this screen on startup",
 
     "semantic_label_splashpage": "Welcome Splash Page",
@@ -15,6 +20,12 @@
     "text_loading": "Loading...",
     "text_fudeo": "Fudeo.it",
     "text_portal": "Offertelavoroflutter.it",
+
+    "title_job_offers_screen": "Board",
+    "title_tab_jobs": "Hiring",
+    "title_tab_projects": "Freelance",
+    "title_tips": "Tips for you",
+    "title_see_all": "See all",
 
     "welcome_text_body_line1": "Offertelavoroflutter.it",
     "welcome_text_body_line2": "Job board for ",

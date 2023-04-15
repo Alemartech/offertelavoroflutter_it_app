@@ -13,7 +13,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i4;
 import 'package:flutter/material.dart' as _i5;
-import 'package:offertelavoroflutter_it_app/pages/job_offers_page.dart' as _i3;
+import 'package:offertelavoroflutter_it_app/pages/job_wrapper_page.dart' as _i3;
 import 'package:offertelavoroflutter_it_app/pages/main_page.dart' as _i1;
 import 'package:offertelavoroflutter_it_app/pages/splash_page.dart' as _i2;
 
@@ -35,10 +35,10 @@ class AppRouter extends _i4.RootStackRouter {
         child: const _i2.SplashPage(),
       );
     },
-    JobOffersPageRoute.name: (routeData) {
+    JobWrapperPageRoute.name: (routeData) {
       return _i4.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i3.JobOffersPage(),
+        child: const _i3.JobWrapperPage(),
       );
     },
   };
@@ -54,7 +54,7 @@ class AppRouter extends _i4.RootStackRouter {
           path: 'welcome',
         ),
         _i4.RouteConfig(
-          JobOffersPageRoute.name,
+          JobWrapperPageRoute.name,
           path: 'jobs',
         ),
       ];
@@ -85,13 +85,13 @@ class SplashPageRoute extends _i4.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.JobOffersPage]
-class JobOffersPageRoute extends _i4.PageRouteInfo<void> {
-  const JobOffersPageRoute()
+/// [_i3.JobWrapperPage]
+class JobWrapperPageRoute extends _i4.PageRouteInfo<void> {
+  const JobWrapperPageRoute()
       : super(
-          JobOffersPageRoute.name,
+          JobWrapperPageRoute.name,
           path: 'jobs',
         );
 
-  static const String name = 'JobOffersPageRoute';
+  static const String name = 'JobWrapperPageRoute';
 }
