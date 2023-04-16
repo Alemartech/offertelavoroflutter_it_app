@@ -4,9 +4,6 @@ final List<SingleChildWidget> _providers = [
   Provider<Logger>(
     create: (_) => Logger(),
   ),
-  Provider<TempServices>(
-    create: (_) => TempServices(),
-  ),
   Provider<JobsService>(
     create: (_) => JobsService(baseUrl: "https://api.notion.com/v1"),
   ),

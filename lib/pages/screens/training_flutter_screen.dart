@@ -7,7 +7,7 @@ class TrainingFlutterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Offerta formativa"),
+        title: const Text("Flutter Academy"),
       ),
     );
   }

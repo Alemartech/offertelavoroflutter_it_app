@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -25,14 +26,23 @@ class MainPage extends StatelessWidget {
                       jobProjectsState is JobProjectsFetched) &&
                   (jobOffersState is NoJobOffersFetched ||
                       jobOffersState is JobOffersFetched)) {
-                _replacePage(
-                  jobOffersContext,
-                  splashPagePrefState is UndefinedSplashPagePrefState ||
-                          (splashPagePrefState as LoadedSplashPagePrefState)
-                              .showSplashPage
-                      ? const SplashPageRoute()
-                      : const JobWrapperPageRoute(),
-                );
+                if (splashPagePrefState is UndefinedSplashPagePrefState ||
+                    (splashPagePrefState as LoadedSplashPagePrefState)
+                        .showSplashPage) {
+                  _replacePage(
+                    context,
+                    const SplashPageRoute(),
+                  );
+                } else {
+                  _replacePage(
+                    context,
+                    JobWrapperPageRoute(
+                      jobHiring: (jobOffersState as JobOffersFetched).jobs,
+                      jobFreelance:
+                          (jobProjectsState as JobProjectsFetched).jobs,
+                    ),
+                  );
+                }
               }
               return const SafeArea(
                 child: Scaffold(
@@ -99,6 +109,11 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: K.primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(

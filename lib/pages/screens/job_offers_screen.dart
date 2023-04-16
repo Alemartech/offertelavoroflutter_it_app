@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:offertelavoroflutter_it_app/models/job_model.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 import 'package:offertelavoroflutter_it_app/utilities/extensions/app_localizations_no_context.dart';
+import 'package:offertelavoroflutter_it_app/utilities/extensions/get_system_ui_overlay.dart';
 import 'package:offertelavoroflutter_it_app/widgets/blog_post_content.dart';
+import 'package:offertelavoroflutter_it_app/widgets/cards/job_info_mini_card.dart';
 import 'package:offertelavoroflutter_it_app/widgets/header_sliver_appbar.dart';
 import 'package:offertelavoroflutter_it_app/widgets/icon_item.dart';
 import 'package:offertelavoroflutter_it_app/widgets/search_sliver_bar.dart';
 
 class JobOffersScreen extends StatelessWidget {
-  const JobOffersScreen({Key? key}) : super(key: key);
+  final JobModel? jobHiring;
+  final JobModel? jobFreelance;
+  const JobOffersScreen({Key? key, this.jobHiring, this.jobFreelance})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: _getTabs().length,
-      child: SafeArea(
+    SystemChrome.setSystemUIOverlayStyle(
+        GetSystemUIOverlay.getSystemUIOverlayStyle(context));
+    return SafeArea(
+      child: DefaultTabController(
+        length: _getTabs().length,
         child: Scaffold(
           extendBodyBehindAppBar: true,
           body: _buildBodyScreen(context),
@@ -37,6 +46,7 @@ class JobOffersScreen extends StatelessWidget {
                   actions: const [
                     IconItem(
                       icon: LucideIcons.refreshCw,
+                      paddingHorizontal: 16.0,
                     ),
                   ],
                 ),
@@ -80,6 +90,7 @@ class JobOffersScreen extends StatelessWidget {
               body: Container(
                 padding: const EdgeInsets.all(8.0),
                 child: TabBarView(
+                  physics: const BouncingScrollPhysics(),
                   children: _getTabContents(),
                 ),
               ),
@@ -120,7 +131,18 @@ class _HiringListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return GridView.builder(
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(8.0),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        mainAxisSpacing: 16.0,
+        crossAxisSpacing: 16.0,
+        childAspectRatio: 3 / 2,
+      ),
+      itemBuilder: (context, index) => const JobInfoMiniCard(),
+      itemCount: 10,
+    );
   }
 }
 

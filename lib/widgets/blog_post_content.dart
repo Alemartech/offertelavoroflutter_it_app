@@ -27,7 +27,7 @@ class BlogPostContent extends StatelessWidget {
           children: [
             _header(context),
             const SizedBox(
-              height: 8.0,
+              height: 16.0,
             ),
             Expanded(
               child: _body(context),

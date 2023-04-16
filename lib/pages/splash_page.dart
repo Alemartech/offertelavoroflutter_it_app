@@ -158,7 +158,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                                       .read<SplashPagePrefBloc>()
                                       .hideSplashPageToStartup();
                                 }
-                                context.pushRoute(const JobWrapperPageRoute());
+                                context.pushRoute(JobWrapperPageRoute());
                               },
                               child: Text(
                                 AppLocalizations.of(context)

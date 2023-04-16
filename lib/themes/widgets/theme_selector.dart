@@ -5,9 +5,9 @@ import 'package:offertelavoroflutter_it_app/themes/cubits/theme/theme_cubit.dart
 typedef ThemeSelectorWidgetBuilder = Widget Function(
     BuildContext context, ThemeMode mode);
 
-class Themeselector extends StatelessWidget {
+class ThemeSelector extends StatelessWidget {
   final ThemeSelectorWidgetBuilder builder;
-  const Themeselector({Key? key, required this.builder}) : super(key: key);
+  const ThemeSelector({Key? key, required this.builder}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => BlocBuilder<ThemeCubit, ThemeState>(
