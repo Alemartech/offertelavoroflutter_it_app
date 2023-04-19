@@ -165,7 +165,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                                         ?.action_explore_now ??
                                     "action_explore_now",
                                 style: const TextStyle(
-                                    color: K.accentCOlor,
+                                    color: K.accentColor,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16.0),
                               ),
@@ -233,7 +233,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
               text:
                   AppLocalizations.of(context)?.checkbox_label_hidden_screen ??
                       "checkbox_label_hidden_screen",
-              color: _isChecked ? K.accentCOlor : Colors.white,
+              color: _isChecked ? K.accentColor : Colors.white,
               fontWeight: _isChecked ? FontWeight.w500 : null,
             )
           ],
@@ -253,7 +253,7 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
   }) =>
       TextStyle(
         fontSize: fontSize,
-        color: isAccentColor ? K.accentCOlor : Colors.white,
+        color: isAccentColor ? K.accentColor : Colors.white,
         fontWeight: FontWeight.w600,
         shadows: [_getTextShadow()],
       );

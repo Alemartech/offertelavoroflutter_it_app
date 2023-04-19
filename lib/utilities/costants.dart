@@ -16,5 +16,5 @@ class K {
 
   static const secondaryColor = Color(0xff027DFD);
 
-  static const accentCOlor = Color(0xffFFDE59);
+  static const accentColor = Color(0xffFFDE59);
 }

@@ -1,8 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:offertelavoroflutter_it_app/models/job_model.dart';
+import 'package:offertelavoroflutter_it_app/pages/screens/job_offer_details_screen.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 import 'package:offertelavoroflutter_it_app/utilities/extensions/app_localizations_no_context.dart';
 import 'package:offertelavoroflutter_it_app/utilities/extensions/get_system_ui_overlay.dart';
@@ -10,6 +12,7 @@ import 'package:offertelavoroflutter_it_app/widgets/blog_post_content.dart';
 import 'package:offertelavoroflutter_it_app/widgets/cards/job_info_mini_card.dart';
 import 'package:offertelavoroflutter_it_app/widgets/header_sliver_appbar.dart';
 import 'package:offertelavoroflutter_it_app/widgets/icon_item.dart';
+import 'package:offertelavoroflutter_it_app/widgets/open_container_wrapper.dart';
 import 'package:offertelavoroflutter_it_app/widgets/search_sliver_bar.dart';
 
 class JobOffersScreen extends StatelessWidget {
@@ -133,14 +136,20 @@ class _HiringListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GridView.builder(
       physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 16.0,
         crossAxisSpacing: 16.0,
         childAspectRatio: 3 / 2,
       ),
-      itemBuilder: (context, index) => const JobInfoMiniCard(),
+      itemBuilder: (context, index) => OpenContainerWrapper(
+        closedBuilder: (context, openContainer) => JobInfoMiniCard(
+          openContainer: openContainer,
+        ),
+        transitionType: ContainerTransitionType.fadeThrough,
+        child: const JobOfferDetailsScreen(),
+      ),
       itemCount: 10,
     );
   }

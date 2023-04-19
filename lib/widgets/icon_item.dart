@@ -33,7 +33,7 @@ class IconItem extends StatelessWidget {
           ),
           child: Icon(
             icon,
-            color: isTapped ? K.accentCOlor : K.primaryColor,
+            color: isTapped ? K.accentColor : K.primaryColor,
           ),
         ),
       ),

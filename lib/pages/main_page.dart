@@ -145,7 +145,7 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                   TextShadow(
                     text: AppLocalizations.of(context)?.text_loading ??
                         "text_loading",
-                    color: K.accentCOlor,
+                    color: K.accentColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 12.0,
                   ),
@@ -156,7 +156,7 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                     padding: EdgeInsets.symmetric(horizontal: 24.0),
                     child: SpinKitThreeBounce(
                       size: 20,
-                      color: K.accentCOlor,
+                      color: K.accentColor,
                     ),
                   ),
                 ],
@@ -176,7 +176,7 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                         "text_portal",
                     semanticsLabel: AppLocalizations.of(context)?.text_portal ??
                         "text_portal",
-                    color: K.accentCOlor,
+                    color: K.accentColor,
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0,
                   ),

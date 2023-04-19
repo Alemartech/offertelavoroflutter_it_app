@@ -2,6 +2,7 @@
     "app_name": "Offerte di lavoro Flutter - Fudeo.it",
 
     "action_explore_now": "Explore now",
+    "action_reset_filters": "reset filters",
 
     "bottom_nav_label_home": "Board",
     "bottom_nav_label_saved": "Saved",
@@ -9,6 +10,16 @@
     "bottom_nav_label_settings": "Settings",
 
     "checkbox_label_hidden_screen": "Hide this screen on startup",
+
+    "label_filter_junior": "Junior",
+    "label_filter_mid": "Mid",
+    "label_filter_senior": "Senior",
+    "label_filter_onsite": "In sede",
+    "label_filter_hybrid": "Ibrido",
+    "label_filter_remote": "Full Remote",
+    "label_filter_fulltime": "Full time",
+    "label_filter_parttime": "Part-time",
+    "label_more_filters": "more filters...",
 
     "semantic_label_splashpage": "Welcome Splash Page",
     "semantic_label_action_explore_now": "Explore now button",
@@ -26,6 +37,11 @@
     "title_tab_projects": "Freelance",
     "title_tips": "Tips for you",
     "title_see_all": "See all",
+    "title_job_details": "Details",
+    "title_filter_section_experience": "Experience",
+    "title_filter_section_team": "Team",
+    "title_filter_section_agreement": "Agreement",
+    "title_filter_section_locality": "Locality",
 
     "welcome_text_body_line1": "Offertelavoroflutter.it",
     "welcome_text_body_line2": "Job board for ",
