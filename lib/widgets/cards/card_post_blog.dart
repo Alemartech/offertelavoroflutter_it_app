@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:offertelavoroflutter_it_app/services/network/url_launch_service.dart';
+import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
 
 class CardPostBlog extends StatelessWidget {
@@ -30,30 +34,35 @@ class CardPostBlog extends StatelessWidget {
 
   Widget _footerPost(BuildContext context) => SizedBox(
         width: MediaQuery.of(context).size.width * 0.80,
-        child: GridTile(
-          footer: Material(
-            color: Colors.transparent,
-            shape: const RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.vertical(bottom: Radius.circular(16.0)),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: GridTileBar(
-              backgroundColor: Colors.black54,
-              title: _GridTitleText(
-                title,
-                fontWeight: FontWeight.w700,
-                fontSize: 16.0,
+        child: Stack(
+          children: [
+            GridTile(
+              footer: Material(
+                color: Colors.transparent,
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(16.0)),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: GridTileBar(
+                  backgroundColor: Colors.black54,
+                  title: _GridTitleText(
+                    title,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16.0,
+                  ),
+                  subtitle: subtitle != null
+                      ? _GridTitleText(
+                          subtitle!,
+                          fontSize: 12.0,
+                        )
+                      : null,
+                ),
               ),
-              subtitle: subtitle != null
-                  ? _GridTitleText(
-                      subtitle!,
-                      fontSize: 12.0,
-                    )
-                  : null,
+              child: _photoPost,
             ),
-          ),
-          child: _photoPost,
+            _AnimatedOpacityWrapper(url: url),
+          ],
         ),
       );
 }
@@ -74,6 +83,57 @@ class _GridTitleText extends StatelessWidget {
         text: text,
         fontWeight: fontWeight,
         fontSize: fontSize,
+      ),
+    );
+  }
+}
+
+class _AnimatedOpacityWrapper extends StatefulWidget {
+  final String url;
+  const _AnimatedOpacityWrapper({Key? key, required this.url})
+      : super(key: key);
+
+  @override
+  State<_AnimatedOpacityWrapper> createState() =>
+      _AnimatedOpacityWrapperState();
+}
+
+class _AnimatedOpacityWrapperState extends State<_AnimatedOpacityWrapper> {
+  double _opacityLevel = 0.0;
+  bool _isTapped = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => setState(() {
+        _opacityLevel = _opacityLevel == 0.0 ? 0.9 : 0.0;
+        _isTapped = !_isTapped;
+      }),
+      child: AnimatedOpacity(
+        opacity: _opacityLevel,
+        duration: const Duration(milliseconds: 300),
+        child: Container(
+          decoration: const BoxDecoration(color: Colors.white),
+          child: Center(
+            child: ElevatedButton(
+              onPressed: () async {
+                setState(() {
+                  _isTapped = !_isTapped;
+                  _opacityLevel = _opacityLevel == 0.0 ? 0.9 : 0.0;
+                });
+                await context
+                    .read<UrlLauunchService>()
+                    .openUrlInApp(widget.url);
+              },
+              child: Text(
+                AppLocalizations.of(context)?.action_read_post ??
+                    "action_read_post",
+                style: const TextStyle(
+                    color: K.accentColor, fontWeight: FontWeight.w600),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

@@ -24,7 +24,7 @@ class _SearchSliverBarState extends State<SearchSliverBar>
   final TextEditingController _serachBarController = TextEditingController();
   final TextEditingController _serachLocController = TextEditingController();
 
-  List<Widget> _itemFilters = [];
+  String? _localityFilterText;
 
   bool isFocused = false;
   bool isTappedFilterButton = false;
@@ -60,6 +60,40 @@ class _SearchSliverBarState extends State<SearchSliverBar>
     }
   }
 
+  void _resetFilters() {
+    for (final seniority in seniorityfilters) {
+      setState(() {
+        seniority.isSelected = false;
+      });
+    }
+
+    for (final team in teamFilters) {
+      setState(() {
+        team.isSelected = false;
+      });
+    }
+
+    for (final agreement in agreementFilters) {
+      setState(() {
+        agreement.isSelected = false;
+      });
+    }
+
+    setState(() {
+      _localityFilterText = null;
+      _serachLocController.text = "";
+    });
+  }
+
+  @override
+  void dispose() {
+    _heightAppBarController.dispose();
+    _heightFiltersContainerController.dispose();
+    _serachBarController.dispose();
+    _serachLocController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -69,14 +103,26 @@ class _SearchSliverBarState extends State<SearchSliverBar>
       title: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          _searchBar(),
-          _expandedSearchBar(),
+          isTappedFilterButton ||
+                  seniorityfilters
+                      .where((seniority) => seniority.isSelected == true)
+                      .isNotEmpty ||
+                  teamFilters
+                      .where((team) => team.isSelected == true)
+                      .isNotEmpty ||
+                  agreementFilters
+                      .where((agreement) => agreement.isSelected == true)
+                      .isNotEmpty ||
+                  _localityFilterText != null
+              ? _searchBarWidget
+              : _searchBarText,
+          _expandedSearchBar,
         ],
       ),
     );
   }
 
-  Widget _searchBar() => Row(
+  Widget get _searchBarText => Row(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -102,11 +148,114 @@ class _SearchSliverBarState extends State<SearchSliverBar>
           const SizedBox(
             width: 8.0,
           ),
-          _filterSearchButton(),
+          _filterSearchButton,
         ],
       );
 
-  Widget _filterSearchButton() => IconItem(
+  Widget get _searchBarWidget => SizedBox(
+        width: double.maxFinite,
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                height: 60.0,
+                width: double.maxFinite,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(50.0),
+                  border: Border.all(
+                    color: K.secondaryColor.withOpacity(0.10),
+                    width: 2.0,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Icon(
+                      LucideIcons.search,
+                      color: isFocused
+                          ? K.primaryColor
+                          : K.secondaryColor.withOpacity(0.10),
+                      size: 24.0,
+                    ),
+                    const SizedBox(
+                      width: 12.0,
+                    ),
+                    Expanded(
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          ..._signorityFilters,
+                          ..._teamFilters,
+                          ..._agreementFilters,
+                          _localityFilter,
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              width: 8.0,
+            ),
+            _filterSearchButton,
+          ],
+        ),
+      );
+
+  List<Widget> get _signorityFilters => List.generate(
+        seniorityfilters.length,
+        (index) => seniorityfilters[index].isSelected
+            ? _FilterTagBarWidget(
+                label: seniorityfilters[index].label,
+                onTap: () => setState(() {
+                  seniorityfilters[index].isSelected =
+                      !seniorityfilters[index].isSelected;
+                }),
+              )
+            : const SizedBox(),
+      );
+
+  List<Widget> get _teamFilters => List.generate(
+        seniorityfilters.length,
+        (index) => teamFilters[index].isSelected
+            ? _FilterTagBarWidget(
+                label: teamFilters[index].label,
+                onTap: () => setState(() {
+                  teamFilters[index].isSelected =
+                      !teamFilters[index].isSelected;
+                }),
+              )
+            : const SizedBox(),
+      );
+
+  List<Widget> get _agreementFilters => List.generate(
+        agreementFilters.length,
+        (index) => agreementFilters[index].isSelected
+            ? _FilterTagBarWidget(
+                label: agreementFilters[index].label,
+                onTap: () => setState(() {
+                  agreementFilters[index].isSelected =
+                      !agreementFilters[index].isSelected;
+                }),
+              )
+            : const SizedBox(),
+      );
+
+  Widget get _localityFilter => _localityFilterText != null
+      ? _FilterTagBarWidget(
+          label: _localityFilterText!,
+          onTap: () => setState(() {
+            _localityFilterText = null;
+            _serachLocController.text = "";
+          }),
+        )
+      : const SizedBox();
+
+  Widget get _filterSearchButton => IconItem(
         isTapped: isTappedFilterButton,
         icon: LucideIcons.settings2,
         onTap: () {
@@ -117,20 +266,19 @@ class _SearchSliverBarState extends State<SearchSliverBar>
         },
       );
 
-  Widget _expandedSearchBar() => Container(
+  Widget get _expandedSearchBar => Container(
         margin: const EdgeInsets.only(top: 10),
         width: MediaQuery.of(context).size.width,
         height: _animationFiltersContainer.value,
-        child: Flex(
-          direction: Axis.vertical,
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: _resetFilters,
                   style: const ButtonStyle(
                     overlayColor: MaterialStatePropertyAll(Colors.transparent),
                   ),
@@ -166,14 +314,14 @@ class _SearchSliverBarState extends State<SearchSliverBar>
                   _titleSectionFilterPanel(AppLocalizations.of(context)
                           ?.title_filter_section_experience ??
                       "title_filter_section_experience"),
-                  _buildSeniorityFilters(),
+                  _buildSeniorityFilters,
                   const SizedBox(
                     height: 4.0,
                   ),
                   _titleSectionFilterPanel(
                       AppLocalizations.of(context)?.title_filter_section_team ??
                           "title_filter_section_team"),
-                  _buildTeamFilters(),
+                  _buildTeamFilters,
                   const SizedBox(
                     height: 4.0,
                   ),
@@ -186,19 +334,14 @@ class _SearchSliverBarState extends State<SearchSliverBar>
                   _titleSectionFilterPanel(AppLocalizations.of(context)
                           ?.title_filter_section_agreement ??
                       "title_filter_section_agreement"),
-                  _buildAgreementFilters(),
+                  _buildAgreementFilters,
                   const SizedBox(
                     height: 4.0,
                   ),
                   _titleSectionFilterPanel(AppLocalizations.of(context)
                           ?.title_filter_section_locality ??
                       "title_filter_section_locality"),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: TextField(
-                      controller: _serachLocController,
-                    ),
-                  )
+                  _buildLocalityFilters,
                 ],
               ),
             ),
@@ -211,7 +354,7 @@ class _SearchSliverBarState extends State<SearchSliverBar>
         style: const TextStyle(fontSize: 14.0, fontWeight: FontWeight.w600),
       );
 
-  Widget _buildSeniorityFilters() => Row(
+  Widget get _buildSeniorityFilters => Row(
         children: [
           for (final seniorityFilter in seniorityfilters)
             _FilterTagWidget(
@@ -223,28 +366,38 @@ class _SearchSliverBarState extends State<SearchSliverBar>
         ],
       );
 
-  Widget _buildTeamFilters() => Row(
+  Widget get _buildTeamFilters => Row(
         children: [
           for (final teamFiler in teamFilters)
             _FilterTagWidget(
               filterTag: teamFiler,
-              onSelected: (p0) => setState(() {
+              onSelected: (value) => setState(() {
                 teamFiler.isSelected = !teamFiler.isSelected;
               }),
             ),
         ],
       );
 
-  Widget _buildAgreementFilters() => Row(
+  Widget get _buildAgreementFilters => Row(
         children: [
           for (final agreementFilter in agreementFilters)
             _FilterTagWidget(
               filterTag: agreementFilter,
-              onSelected: (p0) => setState(() {
+              onSelected: (value) => setState(() {
                 agreementFilter.isSelected = !agreementFilter.isSelected;
               }),
             ),
         ],
+      );
+
+  Widget get _buildLocalityFilters => Padding(
+        padding: const EdgeInsets.only(top: 4.0),
+        child: TextField(
+          controller: _serachLocController,
+          onChanged: (value) => setState(() {
+            _localityFilterText = value;
+          }),
+        ),
       );
 }
 
@@ -276,4 +429,53 @@ class _FilterTagWidget extends StatelessWidget {
           ),
         ],
       );
+}
+
+class _FilterTagBarWidget extends StatelessWidget {
+  final String label;
+  final VoidCallback? onTap;
+  const _FilterTagBarWidget({Key? key, required this.label, this.onTap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          height: 30.0,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15.0),
+            color: K.secondaryColor.withOpacity(0.10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+              const SizedBox(
+                width: 8.0,
+              ),
+              InkWell(
+                onTap: onTap,
+                child: const Icon(
+                  LucideIcons.x,
+                  size: 12.0,
+                  color: K.primaryColor,
+                ),
+              )
+            ],
+          ),
+        ),
+        const SizedBox(
+          width: 4.0,
+        ),
+      ],
+    );
+  }
 }

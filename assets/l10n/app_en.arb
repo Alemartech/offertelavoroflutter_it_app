@@ -3,6 +3,7 @@
 
     "action_explore_now": "Explore now",
     "action_reset_filters": "reset filters",
+    "action_read_post": "read",
 
     "bottom_nav_label_home": "Board",
     "bottom_nav_label_saved": "Saved",

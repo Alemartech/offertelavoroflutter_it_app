@@ -11,8 +11,11 @@ final List<SingleChildWidget> _providers = [
     create: (_) => const FlutterSecureStorage(),
   ),
   Provider<LocalStoragePreferencesService>(
-    create: (context) => LocalStoragePreferencesService(
+    create: (_) => LocalStoragePreferencesService(
       sharedPrefFuture: SharedPreferences.getInstance(),
     ),
+  ),
+  Provider<UrlLauunchService>(
+    create: (_) => UrlLauunchService(),
   ),
 ];

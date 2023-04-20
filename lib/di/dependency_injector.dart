@@ -9,6 +9,7 @@ import 'package:offertelavoroflutter_it_app/repositories/job_repository.dart';
 import 'package:offertelavoroflutter_it_app/repositories/local_storage_repository.dart';
 import 'package:offertelavoroflutter_it_app/services/local/local_storage_preferences_service.dart';
 import 'package:offertelavoroflutter_it_app/services/network/jobs_services.dart';
+import 'package:offertelavoroflutter_it_app/services/network/url_launch_service.dart';
 import 'package:offertelavoroflutter_it_app/themes/cubits/theme/theme_cubit.dart';
 import 'package:offertelavoroflutter_it_app/repositories/mappers/job_mapper.dart';
 import 'package:pine/di/dependency_injector_helper.dart';
