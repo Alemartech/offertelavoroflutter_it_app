@@ -4,6 +4,11 @@ final List<BlocProvider> _blocs = [
   BlocProvider<ThemeCubit>(
     create: (_) => ThemeCubit(),
   ),
+  BlocProvider<ShowSplashPageCubit>(
+    create: (context) => ShowSplashPageCubit(
+      localStoragePrefRepository: context.read<LocalStoragePrefRepository>(),
+    )..getShowSpashPagePref(),
+  ),
   BlocProvider<JobOffersBloc>(
     create: (context) => JobOffersBloc(
       jobRepository: context.read<JobRepository>(),
@@ -17,6 +22,7 @@ final List<BlocProvider> _blocs = [
   BlocProvider<SplashPagePrefBloc>(
     create: (context) => SplashPagePrefBloc(
       localStoragePrefRepository: context.read<LocalStoragePrefRepository>(),
+      showSpalshPageCubit: context.read<ShowSplashPageCubit>(),
     )..fetchSplashPagePref(),
   ),
 ];

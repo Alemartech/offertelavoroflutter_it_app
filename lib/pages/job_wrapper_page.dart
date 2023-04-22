@@ -1,8 +1,8 @@
 import 'package:animations/animations.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:offertelavoroflutter_it_app/models/job_model.dart';
+import 'package:offertelavoroflutter_it_app/pages/screens/drawer_screen.dart';
 
 import 'package:offertelavoroflutter_it_app/pages/screens/job_offers_screen.dart';
 import 'package:offertelavoroflutter_it_app/pages/screens/saved_job_offers_screen.dart';
@@ -59,15 +59,22 @@ class _JobWrapperPageState extends State<JobWrapperPage> {
               currentIndex: _currentNavBarIndex,
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            selectedFontSize: 12.0,
-            items: _bottomNavigationBarItems,
-            currentIndex: _currentNavBarIndex,
-            onTap: (index) {
-              setState(() {
-                _currentNavBarIndex = index;
-              });
-            },
+          drawer: const DrawerScreen(),
+          bottomNavigationBar: LayoutBuilder(
+            builder: (context, _) => BottomNavigationBar(
+              selectedFontSize: 12.0,
+              items: _bottomNavigationBarItems,
+              currentIndex: _currentNavBarIndex,
+              onTap: (index) {
+                if (index == 3) {
+                  Scaffold.of(context).openDrawer();
+                } else {
+                  setState(() {
+                    _currentNavBarIndex = index;
+                  });
+                }
+              },
+            ),
           ),
         ),
       ),
@@ -101,8 +108,6 @@ class _NavigationDestinationScreen extends StatelessWidget {
       default:
     }
 
-    return Center(
-      child: Text("Ciao $currentIndex"),
-    );
+    return const SizedBox();
   }
 }

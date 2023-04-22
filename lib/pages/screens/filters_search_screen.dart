@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:offertelavoroflutter_it_app/widgets/header_sliver_appbar.dart';
 import 'package:offertelavoroflutter_it_app/widgets/search_sliver_bar.dart';
 
 class FiltersSearchScreen extends StatelessWidget {

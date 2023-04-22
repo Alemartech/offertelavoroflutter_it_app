@@ -8,6 +8,7 @@ import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dar
 import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/splash_page_pref/splash_page_pref_bloc.dart';
 import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
+import 'package:offertelavoroflutter_it_app/widgets/logo_fudeo_widget.dart';
 import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 
@@ -183,32 +184,7 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                   const SizedBox(
                     height: 16.0,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Semantics(
-                        label: AppLocalizations.of(context)
-                            ?.semantic_label_logo_fudeo,
-                        child: Image.asset(
-                          "assets/images/logo_fudeo.png",
-                          width: 30,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      TextShadow(
-                        text: AppLocalizations.of(context)?.text_fudeo ??
-                            "text_fudeo",
-                        semanticsLabel:
-                            AppLocalizations.of(context)?.text_fudeo ??
-                                "text_fudeo",
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.0,
-                      ),
-                    ],
-                  ),
+                  const LogoFudeoWidget(),
                 ],
               ),
             ),

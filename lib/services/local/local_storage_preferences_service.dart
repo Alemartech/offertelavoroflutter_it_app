@@ -16,7 +16,7 @@ class LocalStoragePreferencesService {
   FutureOr<void> showSplashPageToStartup() async =>
       (await preferences).setBool(_kShowSplashPage, true);
 
-  FutureOr<bool?> get showSplashPage async =>
+  Future<bool?> get showSplashPage async =>
       (await preferences).getBool(_kShowSplashPage);
 
   FutureOr<SharedPreferences> get preferences async =>

@@ -21,6 +21,8 @@
     "label_filter_fulltime": "Full time",
     "label_filter_parttime": "Part-time",
     "label_more_filters": "more filters...",
+    "label_switch_dark": "Dark theme",
+    "label_switch_show_splash_page": "Show splash screen on startup",
 
     "semantic_label_splashpage": "Welcome Splash Page",
     "semantic_label_action_explore_now": "Explore now button",
@@ -43,6 +45,7 @@
     "title_filter_section_team": "Team",
     "title_filter_section_agreement": "Agreement",
     "title_filter_section_locality": "Locality",
+    "title_settings_menu": "Settings",
 
     "welcome_text_body_line1": "Offertelavoroflutter.it",
     "welcome_text_body_line2": "Job board for ",

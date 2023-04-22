@@ -10,11 +10,11 @@ class LocalStoragePrefRepository {
   });
 
   FutureOr<void> hideSplashPageToStartup() async =>
-      localStoragePrefService.hideSplashPageToStartup();
+      await localStoragePrefService.hideSplashPageToStartup();
 
   FutureOr<void> showSplashPageToStartup() async =>
-      localStoragePrefService.showSplashPageToStartup();
+      await localStoragePrefService.showSplashPageToStartup();
 
-  FutureOr<bool?> get showSplashPage async =>
-      localStoragePrefService.showSplashPage;
+  Future<bool?> get showSplashPage async =>
+      await localStoragePrefService.showSplashPage;
 }
