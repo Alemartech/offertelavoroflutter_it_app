@@ -4,9 +4,6 @@ final List<SingleChildWidget> _providers = [
   Provider<Logger>(
     create: (_) => Logger(),
   ),
-  Provider<TempServices>(
-    create: (_) => TempServices(),
-  ),
   Provider<JobsService>(
     create: (_) => JobsService(baseUrl: "https://api.notion.com/v1"),
   ),
@@ -14,8 +11,11 @@ final List<SingleChildWidget> _providers = [
     create: (_) => const FlutterSecureStorage(),
   ),
   Provider<LocalStoragePreferencesService>(
-    create: (context) => LocalStoragePreferencesService(
+    create: (_) => LocalStoragePreferencesService(
       sharedPrefFuture: SharedPreferences.getInstance(),
     ),
+  ),
+  Provider<UrlLauunchService>(
+    create: (_) => UrlLauunchService(),
   ),
 ];

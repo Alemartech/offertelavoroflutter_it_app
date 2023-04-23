@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -7,6 +8,7 @@ import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dar
 import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/splash_page_pref/splash_page_pref_bloc.dart';
 import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
+import 'package:offertelavoroflutter_it_app/widgets/logo_fudeo_widget.dart';
 import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 
@@ -25,14 +27,23 @@ class MainPage extends StatelessWidget {
                       jobProjectsState is JobProjectsFetched) &&
                   (jobOffersState is NoJobOffersFetched ||
                       jobOffersState is JobOffersFetched)) {
-                _replacePage(
-                  jobOffersContext,
-                  splashPagePrefState is UndefinedSplashPagePrefState ||
-                          (splashPagePrefState as LoadedSplashPagePrefState)
-                              .showSplashPage
-                      ? const SplashPageRoute()
-                      : const JobOffersPageRoute(),
-                );
+                if (splashPagePrefState is UndefinedSplashPagePrefState ||
+                    (splashPagePrefState as LoadedSplashPagePrefState)
+                        .showSplashPage) {
+                  _replacePage(
+                    context,
+                    const SplashPageRoute(),
+                  );
+                } else {
+                  _replacePage(
+                    context,
+                    JobWrapperPageRoute(
+                      jobHiring: (jobOffersState as JobOffersFetched).jobs,
+                      jobFreelance:
+                          (jobProjectsState as JobProjectsFetched).jobs,
+                    ),
+                  );
+                }
               }
               return const SafeArea(
                 child: Scaffold(
@@ -99,6 +110,11 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: K.primaryColor,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light,
+    ));
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -130,7 +146,7 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                   TextShadow(
                     text: AppLocalizations.of(context)?.text_loading ??
                         "text_loading",
-                    color: K.accentCOlor,
+                    color: K.accentColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 12.0,
                   ),
@@ -141,7 +157,7 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                     padding: EdgeInsets.symmetric(horizontal: 24.0),
                     child: SpinKitThreeBounce(
                       size: 20,
-                      color: K.accentCOlor,
+                      color: K.accentColor,
                     ),
                   ),
                 ],
@@ -161,39 +177,14 @@ class _LoadingMainWidgetState extends State<_LoadingMainWidget>
                         "text_portal",
                     semanticsLabel: AppLocalizations.of(context)?.text_portal ??
                         "text_portal",
-                    color: K.accentCOlor,
+                    color: K.accentColor,
                     fontWeight: FontWeight.w500,
                     fontSize: 16.0,
                   ),
                   const SizedBox(
                     height: 16.0,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Semantics(
-                        label: AppLocalizations.of(context)
-                            ?.semantic_label_logo_fudeo,
-                        child: Image.asset(
-                          "assets/images/logo_fudeo.png",
-                          width: 30,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 8.0,
-                      ),
-                      TextShadow(
-                        text: AppLocalizations.of(context)?.text_fudeo ??
-                            "text_fudeo",
-                        semanticsLabel:
-                            AppLocalizations.of(context)?.text_fudeo ??
-                                "text_fudeo",
-                        color: Colors.white,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.0,
-                      ),
-                    ],
-                  ),
+                  const LogoFudeoWidget(),
                 ],
               ),
             ),

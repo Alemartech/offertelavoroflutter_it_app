@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'splash_page_pref_bloc.dart';
 
 abstract class SplashPagePrefState extends Equatable {

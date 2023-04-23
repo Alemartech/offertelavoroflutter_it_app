@@ -1,5 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="it.alemartech.offertelavoroflutter_it_app">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
    <application
         android:label="offertelavoroflutter_it_app"
         android:name="${applicationName}"

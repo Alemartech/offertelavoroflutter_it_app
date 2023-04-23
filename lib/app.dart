@@ -13,7 +13,7 @@ class OfferteLavoroFlutterApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dependencyinjector(
-      child: Themeselector(
+      child: ThemeSelector(
         builder: (context, mode) => MaterialApp.router(
           debugShowCheckedModeBanner: false,
           onGenerateTitle: (context) =>
