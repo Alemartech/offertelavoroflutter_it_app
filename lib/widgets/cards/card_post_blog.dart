@@ -10,13 +10,15 @@ class CardPostBlog extends StatelessWidget {
   final String? subtitle;
   final String image;
   final String url;
-  const CardPostBlog(
-      {Key? key,
-      required this.title,
-      this.subtitle,
-      required this.image,
-      required this.url})
-      : super(key: key);
+  final VoidCallback openContainer;
+  const CardPostBlog({
+    Key? key,
+    required this.title,
+    this.subtitle,
+    required this.image,
+    required this.url,
+    required this.openContainer,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -61,18 +63,21 @@ class CardPostBlog extends StatelessWidget {
               ),
               child: _photoPost,
             ),
-            _AnimatedOpacityWrapper(url: url),
+            _AnimatedOpacityWrapper(
+              url: url,
+              openContainer: openContainer,
+            ),
           ],
         ),
       );
 }
 
 class _GridTitleText extends StatelessWidget {
-  const _GridTitleText(this.text, {this.fontWeight, this.fontSize});
-
   final String text;
   final FontWeight? fontWeight;
   final double? fontSize;
+
+  const _GridTitleText(this.text, {this.fontWeight, this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +95,9 @@ class _GridTitleText extends StatelessWidget {
 
 class _AnimatedOpacityWrapper extends StatefulWidget {
   final String url;
-  const _AnimatedOpacityWrapper({Key? key, required this.url})
+  final VoidCallback openContainer;
+  const _AnimatedOpacityWrapper(
+      {Key? key, required this.url, required this.openContainer})
       : super(key: key);
 
   @override
@@ -121,12 +128,14 @@ class _AnimatedOpacityWrapperState extends State<_AnimatedOpacityWrapper> {
                   _isTapped = !_isTapped;
                   _opacityLevel = _opacityLevel == 0.0 ? 0.9 : 0.0;
                 });
-                await context
+                /*  await context
                     .read<UrlLauunchService>()
-                    .openUrlInApp(widget.url);
+                    .openUrlInApp(widget.url);*/
+
+                widget.openContainer.call();
               },
               child: Text(
-                AppLocalizations.of(context)?.action_read_post ??
+                AppLocalizations.of(context)?.action_read_post.toUpperCase() ??
                     "action_read_post",
                 style: const TextStyle(
                     color: K.accentColor, fontWeight: FontWeight.w600),

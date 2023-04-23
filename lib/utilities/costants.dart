@@ -17,4 +17,8 @@ class K {
   static const secondaryColor = Color(0xff027DFD);
 
   static const accentColor = Color(0xffFFDE59);
+
+  static const trainingFudeoBaseUrl = "https://www.fudeo.it/#InternalCourses";
+
+  static const blogFudeoBaseUrl = "https://www.fudeo.it/blog";
 }

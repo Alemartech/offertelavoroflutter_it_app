@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:offertelavoroflutter_it_app/models/job_model.dart';
 import 'package:offertelavoroflutter_it_app/pages/screens/drawer_screen.dart';
@@ -8,6 +9,7 @@ import 'package:offertelavoroflutter_it_app/pages/screens/job_offers_screen.dart
 import 'package:offertelavoroflutter_it_app/pages/screens/saved_job_offers_screen.dart';
 import 'package:offertelavoroflutter_it_app/pages/screens/training_flutter_screen.dart';
 import 'package:offertelavoroflutter_it_app/utilities/extensions/app_localizations_no_context.dart';
+import 'package:offertelavoroflutter_it_app/utilities/extensions/get_system_ui_overlay.dart';
 
 class JobWrapperPage extends StatefulWidget {
   final List<JobModel>? jobHiring;
@@ -43,6 +45,8 @@ class _JobWrapperPageState extends State<JobWrapperPage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        GetSystemUIOverlay.getSystemUIOverlayStyle(context));
     return WillPopScope(
       onWillPop: () async => false,
       child: SafeArea(
