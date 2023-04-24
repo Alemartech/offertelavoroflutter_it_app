@@ -13,7 +13,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i4;
 import 'package:flutter/material.dart' as _i5;
-import 'package:offertelavoroflutter_it_app/models/job_model.dart' as _i6;
+import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart'
+    as _i7;
+import 'package:offertelavoroflutter_it_app/models/job_project/job_project_model.dart'
+    as _i6;
 import 'package:offertelavoroflutter_it_app/pages/job_wrapper_page.dart' as _i3;
 import 'package:offertelavoroflutter_it_app/pages/main_page.dart' as _i1;
 import 'package:offertelavoroflutter_it_app/pages/splash_page.dart' as _i2;
@@ -31,9 +34,15 @@ class AppRouter extends _i4.RootStackRouter {
       );
     },
     SplashPageRoute.name: (routeData) {
+      final args = routeData.argsAs<SplashPageRouteArgs>(
+          orElse: () => const SplashPageRouteArgs());
       return _i4.MaterialPageX<dynamic>(
         routeData: routeData,
-        child: const _i2.SplashPage(),
+        child: _i2.SplashPage(
+          key: args.key,
+          jobFreelance: args.jobFreelance,
+          jobHiring: args.jobHiring,
+        ),
       );
     },
     JobWrapperPageRoute.name: (routeData) {
@@ -81,14 +90,41 @@ class MainPageRoute extends _i4.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.SplashPage]
-class SplashPageRoute extends _i4.PageRouteInfo<void> {
-  const SplashPageRoute()
-      : super(
+class SplashPageRoute extends _i4.PageRouteInfo<SplashPageRouteArgs> {
+  SplashPageRoute({
+    _i5.Key? key,
+    List<_i6.JobProjectModel>? jobFreelance,
+    List<_i7.JobOfferModel>? jobHiring,
+  }) : super(
           SplashPageRoute.name,
           path: 'welcome',
+          args: SplashPageRouteArgs(
+            key: key,
+            jobFreelance: jobFreelance,
+            jobHiring: jobHiring,
+          ),
         );
 
   static const String name = 'SplashPageRoute';
+}
+
+class SplashPageRouteArgs {
+  const SplashPageRouteArgs({
+    this.key,
+    this.jobFreelance,
+    this.jobHiring,
+  });
+
+  final _i5.Key? key;
+
+  final List<_i6.JobProjectModel>? jobFreelance;
+
+  final List<_i7.JobOfferModel>? jobHiring;
+
+  @override
+  String toString() {
+    return 'SplashPageRouteArgs{key: $key, jobFreelance: $jobFreelance, jobHiring: $jobHiring}';
+  }
 }
 
 /// generated route for
@@ -96,8 +132,8 @@ class SplashPageRoute extends _i4.PageRouteInfo<void> {
 class JobWrapperPageRoute extends _i4.PageRouteInfo<JobWrapperPageRouteArgs> {
   JobWrapperPageRoute({
     _i5.Key? key,
-    List<_i6.JobModel>? jobFreelance,
-    List<_i6.JobModel>? jobHiring,
+    List<_i6.JobProjectModel>? jobFreelance,
+    List<_i7.JobOfferModel>? jobHiring,
   }) : super(
           JobWrapperPageRoute.name,
           path: 'jobs',
@@ -120,9 +156,9 @@ class JobWrapperPageRouteArgs {
 
   final _i5.Key? key;
 
-  final List<_i6.JobModel>? jobFreelance;
+  final List<_i6.JobProjectModel>? jobFreelance;
 
-  final List<_i6.JobModel>? jobHiring;
+  final List<_i7.JobOfferModel>? jobHiring;
 
   @override
   String toString() {

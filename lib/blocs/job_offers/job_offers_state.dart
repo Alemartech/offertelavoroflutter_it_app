@@ -10,7 +10,7 @@ abstract class JobOffersState extends Equatable {
 class JobOffersFetching extends JobOffersState {}
 
 class JobOffersFetched extends JobOffersState {
-  final List<JobModel> jobs;
+  final List<JobOfferModel> jobs;
 
   const JobOffersFetched({
     required this.jobs,

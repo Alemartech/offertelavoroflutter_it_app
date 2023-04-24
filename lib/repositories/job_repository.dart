@@ -4,28 +4,44 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:offertelavoroflutter_it_app/errors/network_error.dart';
 import 'package:offertelavoroflutter_it_app/errors/repository_error.dart';
 import 'package:offertelavoroflutter_it_app/models/bookmark_model.dart';
-import 'package:offertelavoroflutter_it_app/models/job_model.dart';
-import 'package:offertelavoroflutter_it_app/repositories/mappers/job_mapper.dart';
+import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_project/job_project_model.dart';
+import 'package:offertelavoroflutter_it_app/repositories/mappers/job_offers_mapper.dart';
+import 'package:offertelavoroflutter_it_app/repositories/mappers/job_projects_mapper.dart';
 import 'package:offertelavoroflutter_it_app/services/network/jobs_services.dart';
 
 class JobRepository {
   static const _kBaseKeyBookmark = "bookmark_";
 
   final JobsService service;
-  final JobMapper jobMapper;
+  final JobOffersMapper jobOffersMapper;
+  final JobProjectsMapper jobProjectsMapper;
   final FlutterSecureStorage secureStorage;
 
   JobRepository({
     required this.service,
-    required this.jobMapper,
+    required this.jobOffersMapper,
+    required this.jobProjectsMapper,
     required this.secureStorage,
   });
 
-  Future<List<JobModel>> jobs(String databaseId) async {
+  Future<List<JobOfferModel>> jobsOffers(String databaseId) async {
     try {
       final response = await service.fetchJobs(databaseId);
 
-      return response.map(jobMapper.fromDTO).toList(growable: false);
+      return response.map(jobOffersMapper.fromDTO).toList(growable: false);
+    } on NetworkError catch (e, stack) {
+      throw RepositoryError(e.reasonPhrase, stack.toString());
+    } catch (e) {
+      throw RepositoryError(e.toString());
+    }
+  }
+
+  Future<List<JobProjectModel>> jobsProjects(String databaseId) async {
+    try {
+      final response = await service.fetchJobs(databaseId);
+
+      return response.map(jobProjectsMapper.fromDTO).toList(growable: false);
     } on NetworkError catch (e, stack) {
       throw RepositoryError(e.reasonPhrase, stack.toString());
     } catch (e) {

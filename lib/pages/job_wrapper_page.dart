@@ -2,7 +2,8 @@ import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:offertelavoroflutter_it_app/models/job_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_project/job_project_model.dart';
 import 'package:offertelavoroflutter_it_app/pages/screens/drawer_screen.dart';
 
 import 'package:offertelavoroflutter_it_app/pages/screens/job_offers_screen.dart';
@@ -12,8 +13,8 @@ import 'package:offertelavoroflutter_it_app/utilities/extensions/app_localizatio
 import 'package:offertelavoroflutter_it_app/utilities/extensions/get_system_ui_overlay.dart';
 
 class JobWrapperPage extends StatefulWidget {
-  final List<JobModel>? jobHiring;
-  final List<JobModel>? jobFreelance;
+  final List<JobOfferModel>? jobHiring;
+  final List<JobProjectModel>? jobFreelance;
   const JobWrapperPage({Key? key, this.jobFreelance, this.jobHiring})
       : super(key: key);
 
@@ -26,7 +27,7 @@ class _JobWrapperPageState extends State<JobWrapperPage> {
 
   final _bottomNavigationBarItems = <BottomNavigationBarItem>[
     BottomNavigationBarItem(
-      icon: const Icon(LucideIcons.home),
+      icon: const Icon(LucideIcons.briefcase),
       label: AppLocalizationsNoContext.current.bottom_nav_label_home,
     ),
     BottomNavigationBarItem(
@@ -61,6 +62,8 @@ class _JobWrapperPageState extends State<JobWrapperPage> {
             child: _NavigationDestinationScreen(
               key: UniqueKey(),
               currentIndex: _currentNavBarIndex,
+              jobHiring: widget.jobHiring,
+              jobFreelance: widget.jobFreelance,
             ),
           ),
           drawer: const DrawerScreen(),
@@ -87,8 +90,8 @@ class _JobWrapperPageState extends State<JobWrapperPage> {
 }
 
 class _NavigationDestinationScreen extends StatelessWidget {
-  final JobModel? jobHiring;
-  final JobModel? jobFreelance;
+  final List<JobOfferModel>? jobHiring;
+  final List<JobProjectModel>? jobFreelance;
   final int currentIndex;
   const _NavigationDestinationScreen(
       {Key? key, required this.currentIndex, this.jobHiring, this.jobFreelance})

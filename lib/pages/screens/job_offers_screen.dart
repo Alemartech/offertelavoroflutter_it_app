@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:offertelavoroflutter_it_app/models/job_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_project/job_project_model.dart';
 import 'package:offertelavoroflutter_it_app/pages/screens/job_offer_details_screen.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 import 'package:offertelavoroflutter_it_app/utilities/extensions/app_localizations_no_context.dart';
@@ -16,8 +17,8 @@ import 'package:offertelavoroflutter_it_app/widgets/open_container_wrapper.dart'
 import 'package:offertelavoroflutter_it_app/widgets/search_sliver_bar.dart';
 
 class JobOffersScreen extends StatelessWidget {
-  final JobModel? jobHiring;
-  final JobModel? jobFreelance;
+  final List<JobOfferModel>? jobHiring;
+  final List<JobProjectModel>? jobFreelance;
   const JobOffersScreen({Key? key, this.jobHiring, this.jobFreelance})
       : super(key: key);
 
@@ -123,36 +124,40 @@ class JobOffersScreen extends StatelessWidget {
 
   List<Widget> _getTabContents() {
     return [
-      _HiringListWidget(),
+      _HiringListWidget(
+        jobHiring: jobHiring,
+      ),
       _FreelanceListWidget(),
     ];
   }
 }
 
 class _HiringListWidget extends StatelessWidget {
-  const _HiringListWidget({Key? key}) : super(key: key);
+  final List<JobOfferModel>? jobHiring;
+  const _HiringListWidget({Key? key, this.jobHiring}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      physics: const BouncingScrollPhysics(),
-      padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        mainAxisSpacing: 16.0,
-        crossAxisSpacing: 16.0,
-        childAspectRatio: 3 / 2,
-      ),
-      itemBuilder: (context, index) => OpenContainerWrapper(
-        closedBuilder: (context, openContainer) => JobInfoMiniCard(
-          openContainer: openContainer,
-        ),
-        transitionType: ContainerTransitionType.fadeThrough,
-        child: const JobOfferDetailsScreen(),
-      ),
-      itemCount: 10,
-    );
-  }
+  Widget build(BuildContext context) =>
+      jobHiring != null && jobHiring!.isNotEmpty
+          ? GridView.builder(
+              physics: const BouncingScrollPhysics(),
+              padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 16.0,
+                crossAxisSpacing: 16.0,
+                childAspectRatio: 3 / 2,
+              ),
+              itemBuilder: (context, index) => OpenContainerWrapper(
+                closedBuilder: (context, openContainer) => JobInfoMiniCard(
+                  openContainer: openContainer,
+                ),
+                transitionType: ContainerTransitionType.fadeThrough,
+                child: const JobOfferDetailsScreen(),
+              ),
+              itemCount: jobHiring!.length,
+            )
+          : const _NoJobsWidget();
 }
 
 class _FreelanceListWidget extends StatelessWidget {
@@ -161,5 +166,16 @@ class _FreelanceListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container();
+  }
+}
+
+class _NoJobsWidget extends StatelessWidget {
+  const _NoJobsWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Nessun annuncio di lavoro disponibile."),
+    );
   }
 }

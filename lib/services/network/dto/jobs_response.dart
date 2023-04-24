@@ -112,7 +112,7 @@ PropType? _getValue(Map<String, dynamic> data) {
     // TODO: altri case nel mezzo
 
     case "rich_text":
-      List<RichTextTypeProp> richTexts = [];
+      List<RichTextTypeProp> richTexts;
 
       richTexts = (data[type] as List)
           .map(

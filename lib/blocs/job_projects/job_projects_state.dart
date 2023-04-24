@@ -10,7 +10,7 @@ abstract class JobProjectsState extends Equatable {
 class JobProjectsFetching extends JobProjectsState {}
 
 class JobProjectsFetched extends JobProjectsState {
-  final List<JobModel> jobs;
+  final List<JobProjectModel> jobs;
 
   const JobProjectsFetched({
     required this.jobs,

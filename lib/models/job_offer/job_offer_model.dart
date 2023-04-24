@@ -1,22 +1,22 @@
 import 'package:equatable/equatable.dart';
-import 'package:offertelavoroflutter_it_app/models/job_details_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_details_model.dart';
 
-class JobModel extends Equatable {
+class JobOfferModel extends Equatable {
   final String id;
   final DateTime? createdTime;
   final DateTime? lastEditedTime;
   final bool archived;
-  final List<JobDetailsModel> jobbDetails;
+  final JobOfferDetailsModel jobDetails;
 
-  const JobModel({
+  const JobOfferModel({
     required this.id,
     required this.createdTime,
     required this.lastEditedTime,
     required this.archived,
-    required this.jobbDetails,
+    required this.jobDetails,
   });
 
   @override
   List<Object?> get props =>
-      [id, createdTime, lastEditedTime, archived, jobbDetails];
+      [id, createdTime, lastEditedTime, archived, jobDetails];
 }

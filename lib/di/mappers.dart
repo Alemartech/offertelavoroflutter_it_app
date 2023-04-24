@@ -1,7 +1,10 @@
 part of 'dependency_injector.dart';
 
 final List<SingleChildWidget> _mappers = [
-  Provider<JobMapper>(
-    create: (_) => JobMapper(),
+  Provider<JobOffersMapper>(
+    create: (_) => JobOffersMapper(),
+  ),
+  Provider<JobProjectsMapper>(
+    create: (_) => JobProjectsMapper(),
   ),
 ];
