@@ -25,4 +25,9 @@ final List<BlocProvider> _blocs = [
       showSpalshPageCubit: context.read<ShowSplashPageCubit>(),
     )..fetchSplashPagePref(),
   ),
+  BlocProvider<ShareJobCubit>(
+    create: (context) => ShareJobCubit(
+      shareJobRepository: context.read<ShareJobRepository>(),
+    ),
+  ),
 ];

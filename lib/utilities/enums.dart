@@ -20,3 +20,10 @@ enum FieldsType {
   title,
   url,
 }
+
+enum ShareType {
+  facebook,
+  twitter,
+  whatsapp,
+  share_system,
+}

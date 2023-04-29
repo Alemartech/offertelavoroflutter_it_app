@@ -1,10 +1,92 @@
 import 'package:flutter/material.dart';
+import 'package:offertelavoroflutter_it_app/models/job_details/job_created_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_details/job_description_model.dart';
 import 'package:offertelavoroflutter_it_app/models/job_details/job_team_model.dart';
 import 'package:offertelavoroflutter_it_app/models/job_details/job_text_model.dart';
 import 'package:offertelavoroflutter_it_app/models/job_details/job_url_model.dart';
 import 'package:offertelavoroflutter_it_app/services/network/dto/jobs_response.dart';
+import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 
 class MapperUtilities {
+  getMapping(PropertyItemDTO item) {
+    final type = item.typeField;
+    final nameField = item.nameField;
+
+    switch (nameField) {
+      case "Job Posted":
+        if (type == "created_time") {
+          return JobCreatedModel(
+            created: getValues(type, item.valueField),
+          );
+        } else {
+          return null;
+        }
+
+      case "Team":
+      case "Contratto":
+      case "Seniority":
+      case "RAL":
+      case "NDA":
+      case "Tipo di relazione":
+        JobSelectModel? data;
+
+        if (type == "select") {
+          data = getValues(type, item.valueField);
+        } else {
+          data = null;
+        }
+        return data;
+
+      case "Nome azienda":
+      case "Name":
+      case "Qualifica":
+      case "Retribuzione":
+      case "Come candidarsi":
+      case "Località":
+      case "Stato di pubblicazione":
+      case "Tempistiche":
+      case "Budget":
+      case "Codice":
+      case "Tempistiche di pagamento":
+        JobTextModel? data;
+
+        if (type == "text" || type == "title" || type == "rich_text") {
+          data = getValues(type, item.valueField)?.first;
+        } else {
+          data = null;
+        }
+
+        return data;
+
+      case "Descrizione offerta":
+      case "Richiesta di lavoro":
+      case "Descrizione del progetto":
+        JobDescriptionModel jobDescription;
+
+        if (type == "text" || type == "rich_text") {
+          jobDescription = JobDescriptionModel(
+              descriptionItems: getValues(type, item.valueField));
+        } else {
+          jobDescription = const JobDescriptionModel(descriptionItems: []);
+        }
+
+        return jobDescription;
+
+      case "URL sito web":
+        JobUrlModel? url;
+
+        if (type == "url") {
+          url = getValues(type, item.valueField);
+        } else {
+          url = null;
+        }
+
+        return url;
+
+      default:
+    }
+  }
+
   getValues(String type, PropType<dynamic>? item) {
     if (item?.values == null) return null;
 
@@ -100,7 +182,8 @@ class MapperUtilities {
                       richText.annotations.bold ? FontWeight.bold : null,
                   fontStyle:
                       richText.annotations.italic ? FontStyle.italic : null,
-                  color: _getMaterialColor(richText.annotations.color),
+                  color: _getMaterialColor(richText.annotations.color) ??
+                      K.primaryColor,
                 ),
               ),
             )
@@ -122,7 +205,8 @@ class MapperUtilities {
                         richText.annotations.bold ? FontWeight.bold : null,
                     fontStyle:
                         richText.annotations.italic ? FontStyle.italic : null,
-                    color: _getMaterialColor(richText.annotations.color),
+                    color: _getMaterialColor(richText.annotations.color) ??
+                        K.primaryColor,
                   ),
                 ))
             .toList(growable: false);
@@ -142,7 +226,7 @@ class MapperUtilities {
     }
   }
 
-  Color _getMaterialColor(String color) {
+  Color? _getMaterialColor(String color) {
     switch (color) {
       case "blue":
         return Colors.blue;
@@ -172,7 +256,7 @@ class MapperUtilities {
         return Colors.yellow;
 
       default:
-        return Colors.transparent;
+        return null;
     }
   }
 }

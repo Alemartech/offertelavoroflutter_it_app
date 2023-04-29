@@ -11,6 +11,7 @@ class JobsResponse extends DTO with EquatableMixin {
   final PropType createdBy;
   final PropType lastEditedBy;
   final bool archived;
+  final String url;
   final List<PropertyItemDTO> properties;
 
   JobsResponse({
@@ -21,6 +22,7 @@ class JobsResponse extends DTO with EquatableMixin {
     required this.createdBy,
     required this.lastEditedBy,
     required this.archived,
+    required this.url,
     required this.properties,
   });
 
@@ -40,6 +42,7 @@ class JobsResponse extends DTO with EquatableMixin {
       createdBy: PropType(CreatedByTypeProp.fromJson(data)),
       lastEditedBy: PropType(LastEditedByTypeProp.fromJson(data)),
       archived: data["archived"],
+      url: data["url"],
       properties: items,
     );
   }
@@ -54,6 +57,7 @@ class JobsResponse extends DTO with EquatableMixin {
         lastEditedBy,
         archived,
         properties,
+        url,
       ];
 }
 

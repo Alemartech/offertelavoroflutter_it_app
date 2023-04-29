@@ -25,7 +25,7 @@ class DrawerScreen extends StatelessWidget {
               bottomRight: Radius.circular(16.0),
               topRight: Radius.circular(16.0),
             )),
-        width: MediaQuery.of(context).size.width * 0.80,
+        width: MediaQuery.of(context).size.width * 0.90,
         child: Scaffold(
           backgroundColor: Colors.transparent,
           body: Column(

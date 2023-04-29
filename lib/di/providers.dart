@@ -18,4 +18,7 @@ final List<SingleChildWidget> _providers = [
   Provider<UrlLauunchService>(
     create: (_) => UrlLauunchService(),
   ),
+  Provider<ShareJobService>(
+    create: (_) => ShareJobService(),
+  ),
 ];

@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 
 class JobSelectModel extends Equatable {
   final String text;
-  final Color sectionColor;
+  final Color? sectionColor;
 
   const JobSelectModel({
     required this.text,
-    this.sectionColor = Colors.transparent,
+    this.sectionColor,
   });
   @override
   List<Object?> get props => [text, sectionColor];

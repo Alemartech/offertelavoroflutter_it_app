@@ -137,27 +137,33 @@ class _HiringListWidget extends StatelessWidget {
   const _HiringListWidget({Key? key, this.jobHiring}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) =>
-      jobHiring != null && jobHiring!.isNotEmpty
-          ? GridView.builder(
-              physics: const BouncingScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 16.0,
-                crossAxisSpacing: 16.0,
-                childAspectRatio: 3 / 2,
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size.width;
+
+    return jobHiring != null && jobHiring!.isNotEmpty
+        ? GridView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: size < 350 ? 1 : 2,
+              mainAxisSpacing: 16.0,
+              crossAxisSpacing: 8.0,
+              childAspectRatio: size < 350 ? 2 / 1 : 4 / 3,
+            ),
+            itemBuilder: (context, index) => OpenContainerWrapper(
+              closedBuilder: (context, openContainer) => JobInfoMiniCard(
+                jobHiring: jobHiring![index],
+                openContainer: openContainer,
               ),
-              itemBuilder: (context, index) => OpenContainerWrapper(
-                closedBuilder: (context, openContainer) => JobInfoMiniCard(
-                  openContainer: openContainer,
-                ),
-                transitionType: ContainerTransitionType.fadeThrough,
-                child: const JobOfferDetailsScreen(),
+              transitionType: ContainerTransitionType.fadeThrough,
+              child: JobOfferDetailsScreen(
+                jobHiring: jobHiring![index],
               ),
-              itemCount: jobHiring!.length,
-            )
-          : const _NoJobsWidget();
+            ),
+            itemCount: jobHiring!.length,
+          )
+        : const _NoJobsWidget();
+  }
 }
 
 class _FreelanceListWidget extends StatelessWidget {
@@ -175,7 +181,8 @@ class _NoJobsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text("Nessun annuncio di lavoro disponibile."),
+      child: Text(AppLocalizations.of(context)?.text_no_jobs_available ??
+          "text_no_jobs_available"),
     );
   }
 }

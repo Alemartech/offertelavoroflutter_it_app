@@ -6,18 +6,21 @@ class AutoSizeTextWidget extends StatelessWidget {
   final double minFontSize;
   final double maxFontSize;
   final TextStyle? style;
+  final TextAlign? textAlign;
   const AutoSizeTextWidget(
     this.text, {
     Key? key,
-    this.minFontSize = 10.0,
-    this.maxFontSize = 12.0,
+    this.minFontSize = 8.0,
+    this.maxFontSize = 10.0,
     this.style,
+    this.textAlign,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(
       text,
+      textAlign: textAlign,
       minFontSize: minFontSize,
       maxFontSize: maxFontSize,
       maxLines: 2,

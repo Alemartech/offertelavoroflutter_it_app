@@ -1,13 +1,9 @@
-import 'package:offertelavoroflutter_it_app/models/job_details/job_created_model.dart';
-import 'package:offertelavoroflutter_it_app/models/job_details/job_description_model.dart';
-import 'package:offertelavoroflutter_it_app/models/job_details/job_team_model.dart';
-import 'package:offertelavoroflutter_it_app/models/job_details/job_text_model.dart';
-import 'package:offertelavoroflutter_it_app/models/job_details/job_url_model.dart';
+import 'package:offertelavoroflutter_it_app/utilities/extensions/app_localizations_no_context.dart';
+import 'package:pine/pine.dart';
 import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_details_model.dart';
 import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart';
 import 'package:offertelavoroflutter_it_app/repositories/mappers/utilities/mapper_utilities.dart';
 import 'package:offertelavoroflutter_it_app/services/network/dto/jobs_response.dart';
-import 'package:pine/pine.dart';
 
 class JobOffersMapper extends DTOMapper<JobsResponse, JobOfferModel> {
   @override
@@ -16,125 +12,91 @@ class JobOffersMapper extends DTOMapper<JobsResponse, JobOfferModel> {
         createdTime: DateTime.tryParse(dto.createdTime),
         lastEditedTime: DateTime.tryParse(dto.lastEditedTime),
         archived: dto.archived,
+        postUrl: dto.url,
         jobDetails: JobOfferDetailsModel(
-          jobCreatedTime: _getMapping(dto.properties
-              .where((property) => property.nameField == "Job Posted")
+          jobCreatedTime: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext.current.label_field_json_job_posted)
               .first),
-          team: _getMapping(dto.properties
-              .where((property) => property.nameField == "Team")
+          team: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext.current.label_field_json_job_team)
               .first),
-          agreement: _getMapping(dto.properties
-              .where((property) => property.nameField == "Contratto")
+          agreement: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_agreement)
               .first),
-          seniority: _getMapping(dto.properties
-              .where((property) => property.nameField == "Seniority")
+          seniority: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_seniority)
               .first),
-          ral: _getMapping(dto.properties
-              .where((property) => property.nameField == "RAL")
+          ral: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext.current.label_field_json_job_ral)
               .first),
-          jobPosition: _getMapping(dto.properties
-              .where((property) => property.nameField == "Name")
+          jobPosition: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_position)
               .first),
-          jobQualification: _getMapping(dto.properties
-              .where((property) => property.nameField == "Qualifica")
+          jobQualification: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_qualification)
               .first),
-          jobSalary: _getMapping(dto.properties
-              .where((property) => property.nameField == "Retribuzione")
+          jobSalary: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext.current.label_field_json_job_salary)
               .first),
-          nameCompany: _getMapping(dto.properties
-              .where((property) => property.nameField == "Nome azienda")
+          nameCompany: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_companyname)
               .first),
-          jobDescription: _getMapping(dto.properties
-              .where((property) => property.nameField == "Descrizione offerta")
+          jobDescription: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_description)
               .first),
-          howToApply: _getMapping(dto.properties
-              .where((property) => property.nameField == "Come candidarsi")
+          howToApply: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_howtoapply)
               .first),
-          locality: _getMapping(dto.properties
-              .where((property) => property.nameField == "Località")
+          locality: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_locality)
               .first),
-          jobPublicationStatus: _getMapping(dto.properties
-              .where(
-                  (property) => property.nameField == "Stato di pubblicazione")
+          jobPublicationStatus: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_pubblicationstatus)
               .first),
-          urlWebSiteCompany: _getMapping(dto.properties
-              .where((property) => property.nameField == "URL sito web")
+          urlWebSiteCompany: MapperUtilities().getMapping(dto.properties
+              .where((property) =>
+                  property.nameField ==
+                  AppLocalizationsNoContext
+                      .current.label_field_json_job_urlcompany)
               .first),
         ),
       );
 
   @override
   JobsResponse toDTO(JobOfferModel model) => throw UnimplementedError();
-
-  _getMapping(PropertyItemDTO item) {
-    final type = item.typeField;
-    final nameField = item.nameField;
-
-    switch (nameField) {
-      case "Job Posted":
-        if (type == "created_time") {
-          return JobCreatedModel(
-            created: MapperUtilities().getValues(type, item.valueField),
-          );
-        } else {
-          return null;
-        }
-
-      case "Team":
-      case "Contratto":
-      case "Seniority":
-      case "RAL":
-        JobSelectModel? data;
-
-        if (type == "select") {
-          data = MapperUtilities().getValues(type, item.valueField);
-        } else {
-          data = null;
-        }
-        return data;
-
-      case "Nome azienda":
-      case "Name":
-      case "Qualifica":
-      case "Retribuzione":
-      case "Come candidarsi":
-      case "Località":
-      case "Stato di pubblicazione":
-        JobTextModel? data;
-
-        if (type == "text" || type == "title" || type == "rich_text") {
-          data = MapperUtilities().getValues(type, item.valueField)?.first;
-        } else {
-          data = null;
-        }
-
-        return data;
-
-      case "Descrizione offerta":
-        JobDescriptionModel jobDescription;
-
-        if (type == "text" || type == "rich_text") {
-          jobDescription = JobDescriptionModel(
-              descriptionItems:
-                  MapperUtilities().getValues(type, item.valueField));
-        } else {
-          jobDescription = const JobDescriptionModel(descriptionItems: []);
-        }
-
-        return jobDescription;
-
-      case "URL sito web":
-        JobUrlModel? url;
-
-        if (type == "url") {
-          url = MapperUtilities().getValues(type, item.valueField);
-        } else {
-          url = null;
-        }
-
-        return url;
-
-      default:
-    }
-  }
 }

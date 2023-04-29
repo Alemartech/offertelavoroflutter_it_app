@@ -14,4 +14,9 @@ final List<RepositoryProvider> _repositories = [
       localStoragePrefService: context.read<LocalStoragePreferencesService>(),
     ),
   ),
+  RepositoryProvider<ShareJobRepository>(
+    create: (context) => ShareJobRepository(
+      shareJovService: context.read<ShareJobService>(),
+    ),
+  ),
 ];
