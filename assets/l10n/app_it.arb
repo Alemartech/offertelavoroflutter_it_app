@@ -56,6 +56,13 @@
     "section_title_job_salary": "Retribuzione",
     "section_title_job_locality": "Località",
     "section_title_job_howtoapply": "Come candidarsi",
+    "section_title_job_descproject": "Descrizione progetto",
+    "section_title_job_requirement": "Richiesta di lavoro",
+    "section_title_job_relationship": "Tipo di relazione",
+    "section_title_job_timing": "Tempistiche",
+    "section_title_job_budget": "Budget",
+    "section_title_job_paymenttiming": "Tempistiche di pagamento",
+    "section_title_job_nda": "NDA",
 
     "semantic_label_splashpage": "Splash Page di benvenuto",
     "semantic_label_action_explore_now": "Pulsante Esplora ora",

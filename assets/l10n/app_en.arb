@@ -56,6 +56,13 @@
     "section_title_job_salary": "Salary",
     "section_title_job_locality": "Location",
     "section_title_job_howtoapply": "How to apply",
+    "section_title_job_descproject": "Job description",
+    "section_title_job_requirement": "Job requirement",
+    "section_title_job_relationship": "Relationship type",
+    "section_title_job_timing": "Timing",
+    "section_title_job_budget": "Budget",
+    "section_title_job_paymenttiming": "Payment times",
+    "section_title_job_nda": "NDA",
 
     "semantic_label_splashpage": "Welcome Splash Page",
     "semantic_label_action_explore_now": "Explore now button",

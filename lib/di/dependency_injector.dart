@@ -5,6 +5,8 @@ import 'package:logger/logger.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/splash_page_pref/splash_page_pref_bloc.dart';
+import 'package:offertelavoroflutter_it_app/cubits/bookmark_save_cubit.dart';
+import 'package:offertelavoroflutter_it_app/cubits/bookmarks_retrieve/bookmarks_retrieve_cubit.dart';
 import 'package:offertelavoroflutter_it_app/cubits/share_job_cubit.dart';
 import 'package:offertelavoroflutter_it_app/cubits/show_splash_page/show_splash_page_cubit.dart';
 import 'package:offertelavoroflutter_it_app/repositories/job_repository.dart';

@@ -21,4 +21,8 @@ class K {
   static const trainingFudeoBaseUrl = "https://www.fudeo.it/#InternalCourses";
 
   static const blogFudeoBaseUrl = "https://www.fudeo.it/blog";
+
+  static const https = "https://";
+
+  static const http = "http://";
 }

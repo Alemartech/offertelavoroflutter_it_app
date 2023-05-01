@@ -11,7 +11,7 @@ import 'package:offertelavoroflutter_it_app/repositories/mappers/job_projects_ma
 import 'package:offertelavoroflutter_it_app/services/network/jobs_services.dart';
 
 class JobRepository {
-  static const _kBaseKeyBookmark = "bookmark_";
+  static const _kBaseKeyBookmark = "bookmark";
 
   final JobsService service;
   final JobOffersMapper jobOffersMapper;
@@ -49,21 +49,54 @@ class JobRepository {
     }
   }
 
-  Future<void> createBookmark(String jobId) async {
-    final BookmarkModel bookmark = BookmarkModel(id: jobId);
+  Future<List<BookmarkModel>> _getBookmarks() async =>
+      await retrieveBookmark() ?? [];
 
-    final encodeJson = bookmark.toJson;
+  Future<void> createBookmark(BookmarkModel job) async {
+    List<BookmarkModel> bookmarks = await _getBookmarks();
+    bookmarks.add(job);
+
+    final encodeJson =
+        bookmarks.map((bookmark) => bookmark.toJson).toList(growable: false);
     final json = jsonEncode(encodeJson);
 
-    await secureStorage.write(key: _kBaseKeyBookmark + jobId, value: json);
+    await secureStorage.write(key: _kBaseKeyBookmark, value: json);
   }
 
-  Future<bool> checkBookmark(String jobId) async {
-    final json = await secureStorage.read(key: _kBaseKeyBookmark + jobId);
-
-    return json != null ? true : false;
+  Stream<bool> checkBookmarkStream(BookmarkModel job) async* {
+    List<BookmarkModel> bookmarks = await _getBookmarks();
+    yield bookmarks.contains(job);
   }
 
-  Future<void> deleteBookmarK(String jobId) async =>
-      await secureStorage.delete(key: _kBaseKeyBookmark + jobId);
+  Future<bool> checkBookmark(BookmarkModel job) async {
+    List<BookmarkModel> bookmarks = await _getBookmarks();
+
+    return bookmarks.contains(job);
+  }
+
+  Future<List<BookmarkModel>?> retrieveBookmark() async {
+    final savedBookmarks = await secureStorage.read(key: _kBaseKeyBookmark);
+
+    if (savedBookmarks != null) {
+      final jsonBookmarks = jsonDecode(savedBookmarks);
+
+      final bookmarks = (jsonBookmarks as List)
+          .map((bookmark) => BookmarkModel.fromJson(bookmark))
+          .toList();
+
+      return bookmarks;
+    }
+
+    return null;
+  }
+
+  Future<void> deleteBookmarK(BookmarkModel job) async {
+    List<BookmarkModel> bookmarks = await _getBookmarks();
+    bookmarks.remove(job);
+    final encodeJson =
+        bookmarks.map((bookmark) => bookmark.toJson).toList(growable: false);
+    final json = jsonEncode(encodeJson);
+
+    await secureStorage.write(key: _kBaseKeyBookmark, value: json);
+  }
 }

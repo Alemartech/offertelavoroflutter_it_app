@@ -11,6 +11,6 @@ class ShareJobCubit extends Cubit<void> {
     required this.shareJobRepository,
   }) : super(null);
 
-  void shareJob(ShareType share, {required ShareJobModel data}) =>
-      shareJobRepository.shareJobServ(share, data);
+  void shareJob(ShareType share, {required ShareJobModel data}) async =>
+      await shareJobRepository.shareJobServ(share, data);
 }

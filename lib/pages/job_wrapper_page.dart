@@ -62,8 +62,8 @@ class _JobWrapperPageState extends State<JobWrapperPage> {
             child: _NavigationDestinationScreen(
               key: UniqueKey(),
               currentIndex: _currentNavBarIndex,
-              jobHiring: widget.jobHiring,
-              jobFreelance: widget.jobFreelance,
+              jobsHiring: widget.jobHiring,
+              jobsFreelance: widget.jobFreelance,
             ),
           ),
           drawer: const DrawerScreen(),
@@ -90,11 +90,14 @@ class _JobWrapperPageState extends State<JobWrapperPage> {
 }
 
 class _NavigationDestinationScreen extends StatelessWidget {
-  final List<JobOfferModel>? jobHiring;
-  final List<JobProjectModel>? jobFreelance;
+  final List<JobOfferModel>? jobsHiring;
+  final List<JobProjectModel>? jobsFreelance;
   final int currentIndex;
   const _NavigationDestinationScreen(
-      {Key? key, required this.currentIndex, this.jobHiring, this.jobFreelance})
+      {Key? key,
+      required this.currentIndex,
+      this.jobsHiring,
+      this.jobsFreelance})
       : super(key: key);
 
   @override
@@ -102,12 +105,15 @@ class _NavigationDestinationScreen extends StatelessWidget {
     switch (currentIndex) {
       case 0:
         return JobOffersScreen(
-          jobFreelance: jobFreelance,
-          jobHiring: jobHiring,
+          jobFreelance: jobsFreelance,
+          jobHiring: jobsHiring,
         );
 
       case 1:
-        return const SavedJobOffersScreen();
+        return SavedJobOffersScreen(
+          jobsFreelance: jobsFreelance,
+          jobsHiring: jobsHiring,
+        );
 
       case 2:
         return const TrainingFlutterScreen();

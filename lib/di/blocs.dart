@@ -30,4 +30,9 @@ final List<BlocProvider> _blocs = [
       shareJobRepository: context.read<ShareJobRepository>(),
     ),
   ),
+  BlocProvider<BookmarkSaveCubit>(
+    create: (context) => BookmarkSaveCubit(
+      jobRepository: context.read<JobRepository>(),
+    ),
+  ),
 ];

@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:circular_menu/circular_menu.dart';
 import 'package:expandable/expandable.dart';
-import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +12,7 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:offertelavoroflutter_it_app/cubits/bookmark_save_cubit.dart';
 import 'package:offertelavoroflutter_it_app/cubits/bookmarks_retrieve/bookmarks_retrieve_cubit.dart';
 import 'package:offertelavoroflutter_it_app/cubits/share_job_cubit.dart';
-import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_project/job_project_model.dart';
 import 'package:offertelavoroflutter_it_app/models/share_job_model.dart';
 import 'package:offertelavoroflutter_it_app/repositories/job_repository.dart';
 import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
@@ -25,25 +24,24 @@ import 'package:offertelavoroflutter_it_app/utilities/extensions/get_system_ui_o
 import 'package:offertelavoroflutter_it_app/widgets/auto_size_text_widget.dart';
 import 'package:offertelavoroflutter_it_app/widgets/header_sliver_appbar.dart';
 import 'package:offertelavoroflutter_it_app/widgets/icon_item.dart';
-import 'package:offertelavoroflutter_it_app/widgets/image_company_widget.dart';
-import 'package:offertelavoroflutter_it_app/widgets/no_favicon_company_widget.dart';
 
-class JobOfferDetailsScreen extends StatefulWidget {
-  final JobOfferModel jobHiring;
-  const JobOfferDetailsScreen({Key? key, required this.jobHiring})
+class JobFreelanceDetailsScreen extends StatefulWidget {
+  final JobProjectModel jobFreelance;
+  const JobFreelanceDetailsScreen({Key? key, required this.jobFreelance})
       : super(key: key);
 
   @override
-  State<JobOfferDetailsScreen> createState() => _JobOfferDetailsScreenState();
+  State<JobFreelanceDetailsScreen> createState() =>
+      _JobFreelanceDetailsScreenState();
 }
 
-class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
+class _JobFreelanceDetailsScreenState extends State<JobFreelanceDetailsScreen> {
   final GlobalKey<CircularMenuState> _circularMenukey =
       GlobalKey<CircularMenuState>();
   bool _isOpenedShareMenu = false;
 
   void _jobApply() {
-    final urlToApply = widget.jobHiring.jobDetails.howToApply!.text;
+    final urlToApply = widget.jobFreelance.projectDetails.howToApply!.text;
 
     if (urlToApply.substring(0, 8) == K.https ||
         urlToApply.substring(0, 8) == K.http) {
@@ -54,15 +52,15 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
           splittedString.firstWhere((element) => element.contains("@"));
 
       context.read<UrlLauunchService>().openMailClient(
-          emailToApply, widget.jobHiring.jobDetails.jobPosition!.text);
+          emailToApply, widget.jobFreelance.projectDetails.jobTitle!.text);
     }
   }
 
   void _onButtonTap(ShareType share) {
     final data = ShareJobModel(
       msg:
-          "${AppLocalizations.of(context)?.text_sharing_job ?? "text_sharing_job"} \n ${widget.jobHiring.jobDetails.jobPosition?.text}",
-      url: widget.jobHiring.postUrl,
+          "${AppLocalizations.of(context)?.text_sharing_job ?? "text_sharing_job"} \n ${widget.jobFreelance.projectDetails.jobTitle?.text}",
+      url: widget.jobFreelance.postUrl,
     );
 
     context.read<ShareJobCubit>().shareJob(share, data: data);
@@ -80,7 +78,7 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
     return BlocProvider<BookmarkSaveCubit>(
       create: (context) => BookmarkSaveCubit(
         jobRepository: context.read<JobRepository>(),
-      )..checkBookmark(widget.jobHiring.id),
+      )..checkBookmark(widget.jobFreelance.id),
       child: SafeArea(
         child: Scaffold(
           extendBodyBehindAppBar: true,
@@ -110,10 +108,10 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
                       onTap: () => isSaved
                           ? context
                               .read<BookmarkSaveCubit>()
-                              .deleteBookmark(widget.jobHiring.id)
+                              .deleteBookmark(widget.jobFreelance.id)
                           : context
                               .read<BookmarkSaveCubit>()
-                              .saveBookmark(widget.jobHiring.id),
+                              .saveBookmark(widget.jobFreelance.id),
                       icon: LucideIcons.bookmarkMinus,
                       paddingHorizontal: 16.0,
                       isTapped: isSaved,
@@ -149,13 +147,10 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
           background: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               mainAxisSize: MainAxisSize.max,
               children: [
-                widget.jobHiring.jobDetails.urlWebSiteCompany != null
-                    ? _buildImageCompany
-                    : _buildNoImageCompany,
-                _buildCompanyName,
+                _buildFlutterLogo,
                 _buildJobPosition,
               ],
             ),
@@ -172,29 +167,29 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
               children: [
                 _BuildSectionDetail(
                   titleSection: AppLocalizations.of(context)
-                          ?.section_title_job_description ??
-                      "section_title_job_description",
+                          ?.section_title_job_descproject ??
+                      "section_title_job_descproject",
                   expanded: _expandedJobDescription,
                   controller: ExpandableController(initialExpanded: true),
                 ),
                 const SizedBox(height: 8.0),
                 _BuildSectionDetail(
                     titleSection: AppLocalizations.of(context)
-                            ?.section_title_job_agreement ??
-                        "section_title_job_agreement",
-                    expanded: _expandedJobAgreement),
-                const SizedBox(height: 8.0),
-                _BuildSectionDetail(
-                    titleSection:
-                        AppLocalizations.of(context)?.section_title_job_team ??
-                            "section_title_job_team",
-                    expanded: _expandedJobTeam),
+                            ?.section_title_job_requirement ??
+                        "section_title_job_requirement",
+                    expanded: _expandedJobRequirement),
                 const SizedBox(height: 8.0),
                 _BuildSectionDetail(
                     titleSection: AppLocalizations.of(context)
-                            ?.section_title_job_experience ??
-                        "section_title_job_experience",
-                    expanded: _expandedJobSeniority),
+                            ?.section_title_job_relationship ??
+                        "section_title_job_relationship",
+                    expanded: _expandedJobRelationship),
+                const SizedBox(height: 8.0),
+                _BuildSectionDetail(
+                    titleSection: AppLocalizations.of(context)
+                            ?.section_title_job_timing ??
+                        "section_title_job_timing",
+                    expanded: _expandedJobTiming),
                 const SizedBox(height: 8.0),
                 _BuildSectionDetail(
                     titleSection: AppLocalizations.of(context)
@@ -204,15 +199,21 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
                 const SizedBox(height: 8.0),
                 _BuildSectionDetail(
                     titleSection: AppLocalizations.of(context)
-                            ?.section_title_job_salary ??
-                        "section_title_job_salary",
-                    expanded: _expandedJobSalary),
+                            ?.section_title_job_budget ??
+                        "section_title_job_budget",
+                    expanded: _expandedJobBudget),
                 const SizedBox(height: 8.0),
                 _BuildSectionDetail(
                     titleSection: AppLocalizations.of(context)
-                            ?.section_title_job_locality ??
-                        "section_title_job_locality",
-                    expanded: _expandedJobLocality),
+                            ?.section_title_job_paymenttiming ??
+                        "section_title_job_paymenttiming",
+                    expanded: _expandedJobPaymentTiming),
+                const SizedBox(height: 8.0),
+                _BuildSectionDetail(
+                    titleSection:
+                        AppLocalizations.of(context)?.section_title_job_nda ??
+                            "section_title_job_nda",
+                    expanded: _expandedJobNDA),
                 const SizedBox(height: 8.0),
                 _BuildSectionDetail(
                     titleSection: AppLocalizations.of(context)
@@ -225,31 +226,11 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
         ),
       );
 
-  Widget get _buildImageCompany => FutureBuilder<Favicon?>(
-        future: FaviconFinder.getBest(
-            widget.jobHiring.jobDetails.urlWebSiteCompany!.url!),
-        builder: (context, snapshot) => snapshot.hasData
-            ? ImageCompanyWidget(
-                url: snapshot.data!.url,
-                width: 100,
-                height: 100,
-                circular: 16.0,
-              )
-            : _buildNoImageCompany,
-      );
-
-  Widget get _buildCompanyName => Text(
-        widget.jobHiring.jobDetails.nameCompany!.text,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w700,
-        ),
-      );
+  Widget get _buildFlutterLogo => const FlutterLogo(size: 100);
 
   Widget get _buildJobPosition => AutoSizeTextWidget(
-        widget.jobHiring.jobDetails.jobQualification?.text ??
-            widget.jobHiring.jobDetails.jobPosition?.text.split("|")[0] ??
+        widget.jobFreelance.projectDetails.jobTitle?.text ??
+            widget.jobFreelance.projectDetails.jobTitle?.text.split("|")[0] ??
             AppLocalizations.of(context)?.text_empty_item ??
             "text_empty_item",
         textAlign: TextAlign.center,
@@ -262,111 +243,79 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
         ),
       );
 
-  Widget get _buildNoImageCompany => const NoFaviconCompanyWidget(
-        width: 100,
-        height: 100,
-        circular: 16.0,
-      );
-
   Widget get _buildSummaryJobWidget => SliverAppBar(
         pinned: true,
         scrolledUnderElevation: 10.0,
-        toolbarHeight: 100.0,
+        toolbarHeight: 130.0,
         automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            widget.jobHiring.jobDetails.seniority != null
-                ? _buildPosition
-                : _buildTeam,
-            widget.jobHiring.jobDetails.jobSalary != null
-                ? _buildSalary
-                : _buildLocality,
-            _buildAgreement,
+            _buildBudget,
+            _buildNDA,
+            _buildRelationship,
           ],
         ),
       );
 
-  Widget get _buildPosition => Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const IconItem(icon: LucideIcons.award),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            widget.jobHiring.jobDetails.seniority?.text ??
-                AppLocalizations.of(context)?.text_empty_item ??
-                "text_empty_item",
-            style: const TextStyle(color: K.secondaryColor, fontSize: 14.0),
-          ),
-        ],
+  Widget get _buildRelationship => Expanded(
+        child: Column(
+          children: [
+            const IconItem(icon: LucideIcons.network),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              widget.jobFreelance.projectDetails.employRelationship?.text ??
+                  AppLocalizations.of(context)?.text_empty_item ??
+                  "text_empty_item"
+                      "",
+              maxLines: 3,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  color: K.secondaryColor,
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
       );
 
-  Widget get _buildAgreement => Column(
-        children: [
-          const IconItem(icon: LucideIcons.briefcase),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            widget.jobHiring.jobDetails.agreement?.text ??
-                AppLocalizations.of(context)?.text_empty_item ??
-                "text_empty_item",
-            style: const TextStyle(
-                color: K.secondaryColor,
-                fontSize: 14.0,
-                fontWeight: FontWeight.w500),
-          ),
-        ],
+  Widget get _buildBudget => Expanded(
+        child: Column(
+          children: [
+            const IconItem(icon: LucideIcons.coins),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              // TODO: scommentare appena ci sono annunci reali
+              "€ 70/ora" /*widget.jobFreelance.projectDetails.jobBudget?.text ??
+                  AppLocalizations.of(context)?.text_empty_item ??
+                  "text_empty_item"*/
+              ,
+              style: const TextStyle(color: K.secondaryColor, fontSize: 14.0),
+            ),
+          ],
+        ),
       );
 
-  Widget get _buildTeam => Column(
-        children: [
-          const IconItem(icon: LucideIcons.pin),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            widget.jobHiring.jobDetails.team?.text ??
-                AppLocalizations.of(context)?.text_empty_item ??
-                "text_empty_item",
-            style: const TextStyle(color: K.secondaryColor, fontSize: 14.0),
-          ),
-        ],
-      );
-
-  Widget get _buildSalary => Column(
-        children: [
-          const IconItem(icon: LucideIcons.euro),
-          const SizedBox(
-            height: 8.0,
-          ),
-          AutoSizeTextWidget(
-            widget.jobHiring.jobDetails.jobSalary?.text.substring(0, 9) ??
-                widget.jobHiring.jobDetails.ral?.text ??
-                AppLocalizations.of(context)?.text_empty_item ??
-                "text_empty_item",
-            minFontSize: 8.0,
-            maxFontSize: 14.0,
-            style: const TextStyle(color: K.secondaryColor, fontSize: 14.0),
-          ),
-        ],
-      );
-
-  Widget get _buildLocality => Column(
-        children: [
-          const IconItem(icon: LucideIcons.mapPin),
-          const SizedBox(
-            height: 8.0,
-          ),
-          Text(
-            widget.jobHiring.jobDetails.locality?.text ??
-                AppLocalizations.of(context)?.text_empty_item ??
-                "text_empty_item",
-            style: const TextStyle(color: K.secondaryColor, fontSize: 14.0),
-          ),
-        ],
+  Widget get _buildNDA => Expanded(
+        child: Column(
+          children: [
+            const IconItem(icon: LucideIcons.venetianMask),
+            const SizedBox(
+              height: 8.0,
+            ),
+            Text(
+              widget.jobFreelance.projectDetails.nda?.text ??
+                  AppLocalizations.of(context)?.text_empty_item ??
+                  "text_empty_item",
+              style: const TextStyle(color: K.secondaryColor, fontSize: 14.0),
+            ),
+          ],
+        ),
       );
 
   Widget get _buildApplyWidget => Container(
@@ -385,10 +334,12 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 child: ElevatedButton(
                   onPressed:
-                      widget.jobHiring.jobDetails.howToApply?.text == null
+                      widget.jobFreelance.projectDetails.howToApply?.text ==
+                              null
                           ? null
                           : _jobApply,
-                  style: widget.jobHiring.jobDetails.howToApply?.text == null
+                  style: widget.jobFreelance.projectDetails.howToApply?.text ==
+                          null
                       ? ButtonStyle(
                           backgroundColor: MaterialStatePropertyAll(
                               K.secondaryColor.withOpacity(0.10)))
@@ -397,10 +348,11 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
                     AppLocalizations.of(context)?.action_apply_now ??
                         "action_apply_now",
                     style: TextStyle(
-                        color:
-                            widget.jobHiring.jobDetails.howToApply?.text == null
-                                ? Colors.grey
-                                : K.accentColor,
+                        color: widget.jobFreelance.projectDetails.howToApply
+                                    ?.text ==
+                                null
+                            ? Colors.grey
+                            : K.accentColor,
                         fontWeight: FontWeight.w600,
                         fontSize: 16.0),
                   ),
@@ -461,56 +413,82 @@ class _JobOfferDetailsScreenState extends State<JobOfferDetailsScreen> {
         child: RichText(
           textAlign: TextAlign.justify,
           text: TextSpan(
-            children:
-                widget.jobHiring.jobDetails.jobDescription.descriptionItems
-                    .map(
-                      (item) => TextSpan(
-                        text: item.text,
-                        style: item.style,
-                      ),
-                    )
-                    .toList(),
+            children: widget
+                .jobFreelance.projectDetails.jobDescription!.descriptionItems
+                .map(
+                  (item) => TextSpan(
+                    text: item.text,
+                    style: item.style,
+                  ),
+                )
+                .toList(),
           ),
         ),
       );
 
-  Widget get _expandedJobAgreement => Padding(
+  Widget get _expandedJobRequirement => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: _buildSectionWidget(
-            text: widget.jobHiring.jobDetails.agreement?.text,
-            color: widget.jobHiring.jobDetails.agreement?.sectionColor),
+        child: RichText(
+          textAlign: TextAlign.justify,
+          text: TextSpan(
+            children: widget
+                .jobFreelance.projectDetails.jobRequirement.descriptionItems
+                .map(
+                  (item) => TextSpan(
+                    text: item.text,
+                    style: item.style,
+                  ),
+                )
+                .toList(),
+          ),
+        ),
       );
 
-  Widget get _expandedJobTeam => Padding(
+  Widget get _expandedJobRelationship => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: _buildSectionWidget(
-            text: widget.jobHiring.jobDetails.team?.text,
-            color: widget.jobHiring.jobDetails.team?.sectionColor),
+            text: widget.jobFreelance.projectDetails.employRelationship?.text,
+            color: widget
+                .jobFreelance.projectDetails.employRelationship?.sectionColor),
       );
 
-  Widget get _expandedJobSeniority => Padding(
+  Widget get _expandedJobTiming => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Text(
+          widget.jobFreelance.projectDetails.timing?.text ??
+              AppLocalizations.of(context)?.text_empty_item ??
+              "text_empty_item",
+          style: widget.jobFreelance.projectDetails.timing?.style,
+        ),
+      );
+
+  Widget get _expandedJobBudget => Text(
+        widget.jobFreelance.projectDetails.jobBudget?.text ??
+            AppLocalizations.of(context)?.text_empty_item ??
+            "text_empty_item",
+        style: widget.jobFreelance.projectDetails.jobBudget?.style,
+      );
+
+  Widget get _expandedJobPaymentTiming => Text(
+        widget.jobFreelance.projectDetails.paymentTimes?.text ??
+            AppLocalizations.of(context)?.text_empty_item ??
+            "text_empty_item",
+        style: widget.jobFreelance.projectDetails.paymentTimes?.style,
+      );
+
+  Widget get _expandedJobNDA => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: _buildSectionWidget(
-            text: widget.jobHiring.jobDetails.seniority?.text,
-            color: widget.jobHiring.jobDetails.seniority?.sectionColor),
+            text: widget.jobFreelance.projectDetails.nda?.text,
+            color: widget.jobFreelance.projectDetails.nda?.sectionColor),
       );
-
-  Widget get _expandedJobSalary => Text(widget.jobHiring.jobDetails.ral?.text ??
-      widget.jobHiring.jobDetails.jobSalary?.text ??
-      AppLocalizations.of(context)?.text_empty_item ??
-      "text_empty_item");
-
-  Widget get _expandedJobLocality =>
-      Text(widget.jobHiring.jobDetails.locality?.text ??
-          AppLocalizations.of(context)?.text_empty_item ??
-          "text_empty_item");
 
   Widget get _expandedJobCreated => Text(DateFormat(DateFormat.YEAR_MONTH_DAY,
           AppLocalizationsNoContext.current.localeName)
-      .format(widget.jobHiring.jobDetails.jobCreatedTime!.created));
+      .format(widget.jobFreelance.projectDetails.jobCreatedTime.created));
 
   Widget get _expandedJobHowApply =>
-      Text(widget.jobHiring.jobDetails.howToApply?.text ??
+      Text(widget.jobFreelance.projectDetails.howToApply?.text ??
           AppLocalizations.of(context)?.text_empty_item ??
           "text_empty_item");
 

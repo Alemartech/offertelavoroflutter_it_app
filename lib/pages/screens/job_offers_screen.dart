@@ -5,12 +5,14 @@ import 'package:lucide_icons/lucide_icons.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart';
 import 'package:offertelavoroflutter_it_app/models/job_project/job_project_model.dart';
+import 'package:offertelavoroflutter_it_app/pages/screens/job_freelance_details_screen.dart';
 import 'package:offertelavoroflutter_it_app/pages/screens/job_offer_details_screen.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 import 'package:offertelavoroflutter_it_app/utilities/extensions/app_localizations_no_context.dart';
 import 'package:offertelavoroflutter_it_app/utilities/extensions/get_system_ui_overlay.dart';
 import 'package:offertelavoroflutter_it_app/widgets/blog_post_content.dart';
 import 'package:offertelavoroflutter_it_app/widgets/cards/job_info_mini_card.dart';
+import 'package:offertelavoroflutter_it_app/widgets/cards/job_project_mini_card.dart';
 import 'package:offertelavoroflutter_it_app/widgets/header_sliver_appbar.dart';
 import 'package:offertelavoroflutter_it_app/widgets/icon_item.dart';
 import 'package:offertelavoroflutter_it_app/widgets/open_container_wrapper.dart';
@@ -127,7 +129,9 @@ class JobOffersScreen extends StatelessWidget {
       _HiringListWidget(
         jobHiring: jobHiring,
       ),
-      _FreelanceListWidget(),
+      _FreelanceListWidget(
+        jobFreelance: jobFreelance,
+      ),
     ];
   }
 }
@@ -167,11 +171,36 @@ class _HiringListWidget extends StatelessWidget {
 }
 
 class _FreelanceListWidget extends StatelessWidget {
-  const _FreelanceListWidget({Key? key}) : super(key: key);
+  final List<JobProjectModel>? jobFreelance;
+  const _FreelanceListWidget({Key? key, this.jobFreelance}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final size = MediaQuery.of(context).size.width;
+
+    return jobFreelance != null && jobFreelance!.isNotEmpty
+        ? GridView.builder(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 0.0),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: size < 350 ? 1 : 2,
+              mainAxisSpacing: 16.0,
+              crossAxisSpacing: 8.0,
+              childAspectRatio: size < 350 ? 2 / 1 : 4 / 3,
+            ),
+            itemBuilder: (context, index) => OpenContainerWrapper(
+              closedBuilder: (context, openContainer) => JobProjectMiniCard(
+                jobProject: jobFreelance![index],
+                openContainer: openContainer,
+              ),
+              transitionType: ContainerTransitionType.fadeThrough,
+              child: JobFreelanceDetailsScreen(
+                jobFreelance: jobFreelance![index],
+              ),
+            ),
+            itemCount: jobFreelance!.length,
+          )
+        : const _NoJobsWidget();
   }
 }
 

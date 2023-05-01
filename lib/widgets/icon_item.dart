@@ -6,6 +6,9 @@ class IconItem extends StatelessWidget {
   final IconData icon;
   final double paddingHorizontal;
   final double paddingVertical;
+  final double width;
+  final double height;
+  final double? iconSize;
   final bool isTapped;
   const IconItem({
     Key? key,
@@ -13,6 +16,9 @@ class IconItem extends StatelessWidget {
     this.onTap,
     this.paddingHorizontal = 0.0,
     this.paddingVertical = 0.0,
+    this.width = 50.0,
+    this.height = 50.0,
+    this.iconSize,
     this.isTapped = false,
   }) : super(key: key);
 
@@ -24,8 +30,8 @@ class IconItem extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             horizontal: paddingHorizontal, vertical: paddingVertical),
         child: Container(
-          width: 50,
-          height: 50,
+          width: width,
+          height: height,
           decoration: BoxDecoration(
             color:
                 isTapped ? K.primaryColor : K.secondaryColor.withOpacity(0.10),
@@ -34,6 +40,7 @@ class IconItem extends StatelessWidget {
           child: Icon(
             icon,
             color: isTapped ? K.accentColor : K.primaryColor,
+            size: iconSize,
           ),
         ),
       ),
