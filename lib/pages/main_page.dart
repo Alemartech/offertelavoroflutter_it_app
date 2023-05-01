@@ -8,7 +8,6 @@ import 'package:offertelavoroflutter_it_app/blocs/job_offers/job_offers_bloc.dar
 import 'package:offertelavoroflutter_it_app/blocs/job_projects/job_projects_bloc.dart';
 import 'package:offertelavoroflutter_it_app/blocs/splash_page_pref/splash_page_pref_bloc.dart';
 import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
-import 'package:offertelavoroflutter_it_app/widgets/error_widget.dart';
 import 'package:offertelavoroflutter_it_app/widgets/logo_fudeo_widget.dart';
 import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';

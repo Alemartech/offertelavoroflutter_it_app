@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 import 'package:offertelavoroflutter_it_app/cubits/bookmark_save_cubit.dart';
@@ -55,9 +56,15 @@ class SavedJobOffersScreen extends StatelessWidget {
         },
       );
 
-  Widget get _loadingBookmarks => Container();
+  Widget get _loadingBookmarks => const Center(
+        child: SpinKitFadingCircle(
+          color: K.secondaryColor,
+        ),
+      );
 
-  Widget get _noFetchedBookmarks => Container();
+  Widget get _noFetchedBookmarks => Center(
+        child: Text("Nessun annuncio salvato."),
+      );
 
   Widget _fetchedBookmarks(List<BookmarkModel> bookmarks) => ListView.separated(
         physics: const BouncingScrollPhysics(),
