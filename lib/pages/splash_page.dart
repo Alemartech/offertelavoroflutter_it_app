@@ -6,13 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:offertelavoroflutter_it_app/blocs/splash_page_pref/splash_page_pref_bloc.dart';
+import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_project/job_project_model.dart';
 import 'package:offertelavoroflutter_it_app/router/app_router.gr.dart';
 
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
 
 class SplashPage extends StatefulWidget {
-  const SplashPage({Key? key}) : super(key: key);
+  final List<JobOfferModel>? jobHiring;
+  final List<JobProjectModel>? jobFreelance;
+  const SplashPage({Key? key, this.jobFreelance, this.jobHiring})
+      : super(key: key);
 
   @override
   State<SplashPage> createState() => _SplashPageState();
@@ -164,7 +169,9 @@ class _SplashPageState extends State<SplashPage> with TickerProviderStateMixin {
                                       .read<SplashPagePrefBloc>()
                                       .hideSplashPageToStartup();
                                 }
-                                context.pushRoute(JobWrapperPageRoute());
+                                context.pushRoute(JobWrapperPageRoute(
+                                    jobFreelance: widget.jobFreelance,
+                                    jobHiring: widget.jobHiring));
                               },
                               child: Text(
                                 AppLocalizations.of(context)

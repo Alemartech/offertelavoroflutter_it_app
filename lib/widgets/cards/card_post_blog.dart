@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:offertelavoroflutter_it_app/services/network/url_launch_service.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 import 'package:offertelavoroflutter_it_app/widgets/text_shadow.dart';
 
@@ -128,9 +126,6 @@ class _AnimatedOpacityWrapperState extends State<_AnimatedOpacityWrapper> {
                   _isTapped = !_isTapped;
                   _opacityLevel = _opacityLevel == 0.0 ? 0.9 : 0.0;
                 });
-                /*  await context
-                    .read<UrlLauunchService>()
-                    .openUrlInApp(widget.url);*/
 
                 widget.openContainer.call();
               },

@@ -32,7 +32,11 @@ class MainPage extends StatelessWidget {
                         .showSplashPage) {
                   _replacePage(
                     context,
-                    const SplashPageRoute(),
+                    SplashPageRoute(
+                      jobHiring: (jobOffersState as JobOffersFetched).jobs,
+                      jobFreelance:
+                          (jobProjectsState as JobProjectsFetched).jobs,
+                    ),
                   );
                 } else {
                   _replacePage(

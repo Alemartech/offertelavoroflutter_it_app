@@ -25,4 +25,14 @@ final List<BlocProvider> _blocs = [
       showSpalshPageCubit: context.read<ShowSplashPageCubit>(),
     )..fetchSplashPagePref(),
   ),
+  BlocProvider<ShareJobCubit>(
+    create: (context) => ShareJobCubit(
+      shareJobRepository: context.read<ShareJobRepository>(),
+    ),
+  ),
+  BlocProvider<BookmarkSaveCubit>(
+    create: (context) => BookmarkSaveCubit(
+      jobRepository: context.read<JobRepository>(),
+    ),
+  ),
 ];

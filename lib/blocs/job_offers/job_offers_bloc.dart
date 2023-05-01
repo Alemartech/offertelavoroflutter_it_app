@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:offertelavoroflutter_it_app/errors/repository_error.dart';
-import 'package:offertelavoroflutter_it_app/models/job_model.dart';
+import 'package:offertelavoroflutter_it_app/models/job_offer/job_offer_model.dart';
 import 'package:offertelavoroflutter_it_app/repositories/job_repository.dart';
 import 'package:offertelavoroflutter_it_app/utilities/costants.dart';
 
@@ -19,7 +19,7 @@ class JobOffersBloc extends Bloc<JobOffersEvent, JobOffersState> {
     emit(JobOffersFetching());
 
     try {
-      final jobs = await jobRepository.jobs(K.jobAnnouncementsDatabaseId);
+      final jobs = await jobRepository.jobsOffers(K.jobAnnouncementsDatabaseId);
       emit(jobs.isEmpty ? NoJobOffersFetched() : JobOffersFetched(jobs: jobs));
     } on RepositoryError catch (e) {
       emit(JobOffersError(errorMessage: e.errorMessage));

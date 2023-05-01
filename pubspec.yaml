@@ -24,6 +24,8 @@ dependencies:
   cached_network_image: ^3.2.3
   auto_size_text: ^3.0.0
   url_launcher: ^6.1.10
+  intl: ^0.17.0
+  flutter_share_me: ^1.4.0
 
   # local storage
   flutter_secure_storage: ^8.0.0
@@ -40,6 +42,8 @@ dependencies:
   animations: ^2.0.7
   expandable: ^5.0.1
   webview_flutter: ^4.2.0
+  circular_menu: ^2.0.1
+  flutter_slidable: ^3.0.0
 
 dev_dependencies:
   flutter_test:
