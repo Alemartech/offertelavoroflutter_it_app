@@ -5,6 +5,7 @@
     "action_reset_filters": "reset filters",
     "action_read_post": "read",
     "action_apply_now": "Apply now",
+    "action_delete_saved_job": "Remove",
 
     "bottom_nav_label_home": "Board",
     "bottom_nav_label_saved": "Saved",
@@ -77,6 +78,9 @@
     "text_sharing_job": "I want to share this job posting with you.",
     "text_empty_item": "Empty",
     "text_no_jobs_available": "No job ads available.",
+    "text_dismiss_bookmark": "Scroll to delete.",
+    "text_pubblisher_to": "Published to:",
+    "text_job_removed": "Job removed or no longer available.",
 
     "title_job_offers_screen": "Board",
     "title_tab_jobs": "Hiring",
@@ -91,6 +95,7 @@
     "title_settings_menu": "Settings",
     "title_view_blog": "Blog",
     "title_job_apply_page": "Application",
+    "title_saved_job": "Saved",
 
     "welcome_text_body_line1": "Offertelavoroflutter.it",
     "welcome_text_body_line2": "Job board for ",

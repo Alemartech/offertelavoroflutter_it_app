@@ -5,6 +5,7 @@
     "action_reset_filters": "reset filtri",
     "action_read_post": "leggi",
     "action_apply_now": "Candidati ora",
+    "action_delete_saved_job": "Rimuovi",
 
     "bottom_nav_label_home": "Bacheca",
     "bottom_nav_label_saved": "Salvati",
@@ -77,6 +78,9 @@
     "text_sharing_job": "Voglio condividere questo annuncio con te.",
     "text_empty_item": "Vuoto",
     "text_no_jobs_available": "Nessun annuncio di lavoro disponibile.",
+    "text_dismiss_bookmark": "Scorri per eliminare.",
+    "text_pubblisher_to": "Pubblicato il:",
+    "text_job_removed": "Annuncio rimosso o non più disponibile.",
 
     "title_job_offers_screen": "Bacheca",
     "title_tab_jobs": "Assunzioni",
@@ -91,6 +95,7 @@
     "title_settings_menu": "Impostazioni",
     "title_view_blog": "Blog",
     "title_job_apply_page": "Candidatura",
+    "title_saved_job": "Salvati",
 
     "welcome_text_body_line1": "Offertelavoroflutter.it",
     "welcome_text_body_line2": "Bacheca di annunci di lavoro per ",

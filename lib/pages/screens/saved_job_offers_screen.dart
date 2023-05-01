@@ -32,7 +32,8 @@ class SavedJobOffersScreen extends StatelessWidget {
       )..retrieveBookmarks(),
       child: Scaffold(
         appBar: AppBar(
-          title: const Text("Salvati"),
+          title: Text(AppLocalizations.of(context)?.title_saved_job ??
+              "title_saved_job"),
         ),
         body: _buildBodySavedJob,
       ),
@@ -119,11 +120,11 @@ class _MatchedBookmarkJob<T> extends StatelessWidget {
                     ? (job as JobOfferModel).id
                     : (job as JobProjectModel).id)),
         children: [
-          _customSlidable(),
+          _customSlidable(context),
         ],
       );
 
-  Widget _customSlidable() => CustomSlidableAction(
+  Widget _customSlidable(BuildContext context) => CustomSlidableAction(
         onPressed: (_) {},
         child: Container(
           padding: const EdgeInsets.all(8.0),
@@ -131,7 +132,8 @@ class _MatchedBookmarkJob<T> extends StatelessWidget {
             borderRadius: BorderRadius.circular(16.0),
           ),
           child: Text(
-            "Scorri per eliminare.",
+            AppLocalizations.of(context)?.text_dismiss_bookmark ??
+                "text_dismiss_bookmark",
             style: const TextStyle(
               color: K.primaryColor,
               fontWeight: FontWeight.w500,
@@ -167,7 +169,7 @@ class _MatchedBookmarkJob<T> extends StatelessWidget {
                       width: 100,
                       decoration: BoxDecoration(
                         color: K.secondaryColor.withOpacity(0.10),
-                        borderRadius: BorderRadius.only(
+                        borderRadius: const BorderRadius.only(
                           bottomLeft: Radius.circular(16.0),
                           topLeft: Radius.circular(16.0),
                         ),
@@ -279,7 +281,7 @@ class _MatchedBookmarkJob<T> extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      "Pubblicato il: //${DateFormat(DateFormat.YEAR_MONTH_DAY, AppLocalizations.of(context)?.localeName).format(isHiring ? (job as JobOfferModel).jobDetails.jobCreatedTime!.created : (job as JobProjectModel).projectDetails.jobCreatedTime.created)}",
+                      "${AppLocalizations.of(context)?.text_pubblisher_to} ${DateFormat(DateFormat.YEAR_MONTH_DAY, AppLocalizations.of(context)?.localeName).format(isHiring ? (job as JobOfferModel).jobDetails.jobCreatedTime!.created : (job as JobProjectModel).projectDetails.jobCreatedTime.created)}",
                       style: const TextStyle(
                           fontSize: 10.0, color: K.secondaryColor),
                     ),
@@ -305,8 +307,9 @@ class _NoMatchedBookmarkJob extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            "Annuncio rimosso o non più disponibile.",
-            style: TextStyle(
+            AppLocalizations.of(context)?.text_job_removed ??
+                "text_job_removed",
+            style: const TextStyle(
               color: Colors.red,
               fontWeight: FontWeight.w600,
             ),
@@ -323,10 +326,11 @@ class _NoMatchedBookmarkJob extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Rimuovi",
-                        style: TextStyle(color: Colors.red),
+                        AppLocalizations.of(context)?.action_delete_saved_job ??
+                            "action_delete_saved_job",
+                        style: const TextStyle(color: Colors.red),
                       ),
-                      Icon(
+                      const Icon(
                         LucideIcons.trash2,
                         color: Colors.red,
                       )
